@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>For Drashti Singh ❤️</title>
+<title>For Drashti ❤️</title>
 
 <style>
 body {
@@ -9,7 +9,6 @@ body {
   font-family:sans-serif;
   text-align:center;
   background:linear-gradient(to right,#ffd1dc,#fff);
-  overflow:hidden;
 }
 
 .page {
@@ -21,41 +20,14 @@ body {
   display:block;
 }
 
-img {
-  width:260px;
-  border-radius:20px;
-  box-shadow:0 0 20px rgba(0,0,0,0.3);
-  animation:zoom 6s infinite alternate;
-}
-
-@keyframes zoom {
-  from {transform:scale(1);}
-  to {transform:scale(1.1);}
-}
-
 button {
   padding:10px 20px;
   margin:10px;
   border:none;
-  border-radius:25px;
+  border-radius:20px;
   background:#ff4d6d;
   color:white;
   font-size:16px;
-}
-
-button:hover {
-  transform:scale(1.1);
-}
-
-/* Hearts */
-.heart {
-  position:absolute;
-  animation:float 5s linear infinite;
-}
-
-@keyframes float {
-  0% {transform:translateY(100vh); opacity:1;}
-  100% {transform:translateY(-10vh); opacity:0;}
 }
 </style>
 
@@ -63,24 +35,18 @@ button:hover {
 
 <body>
 
-<!-- Music -->
-<audio autoplay loop>
-<source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3">
-</audio>
-
 <!-- Page 1 -->
 <div class="page active" id="p1">
   <h1>Hi Drashti Singh 💖</h1>
   <p>This is something special for you...</p>
-  <button onclick="next(2)">Start 💌</button>
+  <button onclick="nextPage(2)">Start 💌</button>
 </div>
 
 <!-- Page 2 -->
 <div class="page" id="p2">
-  <img src="image.jpg.png.jpg">
   <p>The day I saw you outside the KV school...</p>
   <p>I fell in love with you ❤️</p>
-  <button onclick="next(3)">Next ➡️</button>
+  <button onclick="nextPage(3)">Next ➡️</button>
 </div>
 
 <!-- Page 3 -->
@@ -88,20 +54,28 @@ button:hover {
   <p>I don’t know when it happened...</p>
   <p>Your smile stayed in my mind...</p>
   <p>You became very special 💖</p>
-  <button onclick="next(4)">Next ➡️</button>
+  <button onclick="nextPage(4)">Next ➡️</button>
 </div>
 
 <!-- Page 4 -->
 <div class="page" id="p4">
   <h2>Will you be mine? 💍</h2>
 
-  <button onclick="celebrate()">YES 💖</button>
-  <button onclick="celebrate()">ALWAYS YES 💞</button>
+  <button onclick="alert('Yay 💖')">YES 💖</button>
+  <button onclick="alert('Aww 💞')">ALWAYS YES 💞</button>
   <button onclick="alert('Take your time 😊')">I need sometime 🤍</button>
   <button onclick="alert('😄 Okay okay!')">Na ka to option hi nahi hai madam 🙃</button>
 </div>
 
 <script>
-function next(n){
-  let pages=document.getElementsByClassName("page");
-  for
+function nextPage(n){
+  var pages = document.getElementsByClassName("page");
+  for(var i=0;i<pages.length;i++){
+    pages[i].style.display="none";
+  }
+  document.getElementById("p"+n).style.display="block";
+}
+</script>
+
+</body>
+</html>
