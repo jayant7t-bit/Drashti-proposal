@@ -2,21 +2,86 @@
 <html>
 <head>
 <title>For Drashti ❤️</title>
+
+<style>
+body {
+  margin:0;
+  font-family:sans-serif;
+  text-align:center;
+  background:linear-gradient(to right,#ffd1dc,#fff);
+}
+
+.page {
+  display:none;
+  padding-top:80px;
+}
+
+.active {
+  display:block;
+}
+
+img {
+  width:250px;
+  border-radius:15px;
+}
+
+button {
+  padding:10px 20px;
+  margin:10px;
+  border:none;
+  border-radius:20px;
+  background:#ff4d6d;
+  color:white;
+  font-size:16px;
+}
+</style>
+
 </head>
-<body style="text-align:center; background:pink;">
 
-<h1>Hi Drashti Singh 💖</h1>
-<p>The day I saw you outside KV school...</p>
-<p>I fell in love with you ❤️</p>
+<body>
 
-<img src="photo.jpg" width="250">
+<!-- Page 1 -->
+<div class="page active" id="p1">
+  <h1>Hi Drashti Singh 💖</h1>
+  <p>This is something special for you...</p>
+  <button onclick="next(2)">Start 💌</button>
+</div>
 
-<h2>Will you be mine? 💍</h2>
+<!-- Page 2 -->
+<div class="page" id="p2">
+  <img src="YOUR-IMAGE-NAME.jpg">
+  <p>The day I saw you outside the KV school...</p>
+  <p>I fell in love with you ❤️</p>
+  <button onclick="next(3)">Next ➡️</button>
+</div>
 
-<button>YES 💖</button>
-<button>ALWAYS YES 💞</button>
-<button>I need sometime 🤍</button>
-<button>Na ka to option hi nahi hai madam 🙃</button>
+<!-- Page 3 -->
+<div class="page" id="p3">
+  <p>I don’t know when it happened...</p>
+  <p>Your smile stayed in my mind...</p>
+  <p>You became very special 💖</p>
+  <button onclick="next(4)">Next ➡️</button>
+</div>
+
+<!-- Page 4 -->
+<div class="page" id="p4">
+  <h2>Will you be mine? 💍</h2>
+
+  <button onclick="alert('Yay 💖')">YES 💖</button>
+  <button onclick="alert('Aww 💞')">ALWAYS YES 💞</button>
+  <button onclick="alert('Take your time 😊')">I need sometime 🤍</button>
+  <button onclick="alert('😄 Okay okay!')">Na ka to option hi nahi hai madam 🙃</button>
+</div>
+
+<script>
+function next(n){
+  let pages=document.getElementsByClassName("page");
+  for(let i=0;i<pages.length;i++){
+    pages[i].classList.remove("active");
+  }
+  document.getElementById("p"+n).classList.add("active");
+}
+</script>
 
 </body>
 </html>
