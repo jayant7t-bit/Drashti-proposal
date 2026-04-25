@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,60 +6,84 @@
 <style>
 body{
   margin:0;
-  overflow:hidden;
   font-family:Arial;
+  overflow:hidden;
   text-align:center;
+  background:black;
   color:white;
-  background: radial-gradient(circle,#120018,#000);
 }
 
-/* 🌌 3D HEART BACKGROUND */
-.scene{
+/* 🎬 MOVIE INTRO SCREEN */
+#intro{
   position:fixed;
   width:100%;
-  height:100vh;
-  perspective:800px;
-  z-index:-3;
+  height:100%;
+  background:black;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
 }
 
-.heart3d{
-  width:140px;
-  height:140px;
+#intro h1{
+  font-size:40px;
+  color:#ff4d6d;
+  opacity:0;
+  animation:fadeIn 3s forwards;
+}
+
+#intro p{
+  font-size:20px;
+  margin-top:10px;
+  opacity:0;
+  animation:fadeIn 4s forwards;
+  animation-delay:1s;
+}
+
+#intro button{
+  margin-top:30px;
+  padding:12px 25px;
+  border:none;
+  border-radius:25px;
   background:#ff4d6d;
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform-style:preserve-3d;
-  transform:translate(-50%,-50%);
-  animation:spin 8s linear infinite;
-  box-shadow:0 0 50px #ff4d6d;
+  color:white;
+  font-size:18px;
+  opacity:0;
+  animation:fadeIn 5s forwards;
+  animation-delay:2s;
 }
 
-@keyframes spin{
-  0%{transform:translate(-50%,-50%) rotateY(0deg)}
-  100%{transform:translate(-50%,-50%) rotateY(360deg)}
+@keyframes fadeIn{
+  to{opacity:1}
 }
 
-/* CANVAS STARS */
+/* 🌌 BACKGROUND */
 canvas{
   position:fixed;
   top:0;
   left:0;
-  z-index:-4;
+  z-index:-3;
 }
 
-/* SHOOTING STAR */
-.star{
+/* ❤️ HEART BACKGROUND */
+.love-bg{
   position:fixed;
-  width:2px;
-  height:80px;
-  background:linear-gradient(white,transparent);
-  animation:shoot 1s linear forwards;
+  width:100%;
+  height:100%;
+  z-index:-2;
 }
 
-@keyframes shoot{
-  from{transform:translateY(0) rotate(45deg);opacity:1}
-  to{transform:translate(300px,-300px) rotate(45deg);opacity:0}
+.bg-heart{
+  position:absolute;
+  font-size:18px;
+  animation:rise 8s linear forwards;
+}
+
+@keyframes rise{
+  0%{transform:translateY(100vh);opacity:0}
+  20%{opacity:1}
+  100%{transform:translateY(-110vh);opacity:0}
 }
 
 /* PAGES */
@@ -68,9 +91,17 @@ canvas{
 .active{display:block}
 
 /* TEXT */
-h1{font-size:50px;color:#ff4d6d;}
+h1{font-size:45px;color:#ff4d6d;}
 h2{font-size:35px;color:#ff4d6d;}
 p{font-size:20px}
+
+/* IMAGE */
+img{
+  width:420px;
+  max-width:85vw;
+  border-radius:25px;
+  box-shadow:0 0 35px rgba(255,77,109,0.7);
+}
 
 /* BUTTON */
 button{
@@ -85,115 +116,132 @@ button{
 
 /* HEARTS */
 .heart{
-  position:fixed;
-  color:#ff4d6d;
-  animation:float 6s linear forwards;
+  position:absolute;
+  font-size:20px;
+  animation:float 5s linear infinite;
 }
+
 @keyframes float{
   0%{transform:translateY(100vh);opacity:0}
   20%{opacity:1}
   100%{transform:translateY(-10vh);opacity:0}
 }
 
-/* FIREWORK */
-.burst{
+/* FIREWORKS */
+.firework{
   position:fixed;
-  font-size:18px;
+  width:6px;
+  height:6px;
+  border-radius:50%;
   animation:boom 1.2s ease-out forwards;
 }
+
 @keyframes boom{
   from{transform:translate(0,0);opacity:1}
   to{transform:translate(var(--x),var(--y));opacity:0}
-}
-
-/* NO BUTTON ESCAPE */
-#noBtn{
-  position:relative;
 }
 </style>
 </head>
 
 <body>
 
-<!-- BACKGROUND EFFECTS -->
-<div class="scene">
-  <div class="heart3d"></div>
+<!-- 🎬 MOVIE INTRO -->
+<div id="intro">
+  <h1>A Love Story Begins... ❤️</h1>
+  <p>For someone very special — Drashti Singh 💖</p>
+  <button onclick="startMovie()">Enter Story ➡️</button>
 </div>
 
+<!-- BACKGROUND -->
+<div class="love-bg" id="loveBg"></div>
 <canvas id="stars"></canvas>
 
 <!-- MUSIC -->
-<audio id="m1" src="song1.mp3"></audio>
-<audio id="m2" src="song2.mp3"></audio>
+<audio id="music1" src="song1.mp3"></audio>
+<audio id="music2" src="song2.mp3"></audio>
 
 <!-- PAGE 1 -->
 <div class="page active" id="p1">
   <h1>Hi Drashti 💖</h1>
-  <p>Something special is waiting...</p>
-  <button onclick="next(2)">Start 💌</button>
+  <p>This is something special for you...</p>
+  <button onclick="nextPage(2)">Start 💌</button>
 </div>
 
 <!-- PAGE 2 -->
 <div class="page" id="p2">
-  <h2>I like you ❤️</h2>
-  <p>You became my favourite person 💖</p>
-  <button onclick="next(3)">Next ➡️</button>
+  <img src="Screenshot.png"
+       onerror="this.src='https://via.placeholder.com/420'">
+
+  <p>The day I saw you outside KV school...</p>
+  <p>I fell in love with you ❤️</p>
+  <button onclick="nextPage(3)">Next ➡️</button>
 </div>
 
 <!-- PAGE 3 -->
 <div class="page" id="p3">
+  <p>I don’t know when it happened...</p>
+  <p>Your smile stayed in my mind...</p>
+  <p>You became very special 💖</p>
+  <button onclick="nextPage(4)">Next ➡️</button>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="p4">
   <h2>Will you be mine? 💍</h2>
 
   <button onclick="celebrate()">YES 💖</button>
   <button onclick="celebrate()">ALWAYS YES 💞</button>
-  <button onclick="alert('Take your time 😊')">Maybe 🤍</button>
+  <button onclick="alert('Take your time 😊')">I need time 🤍</button>
 
-  <button id="noBtn" onmouseover="moveNo()">No 🙃</button>
+  <button id="noBtn" onmouseover="moveBtn()">No 🙃</button>
 
-  <h2 id="result" style="display:none">💖 SHE SAID YES 💖</h2>
+  <h2 id="result" style="display:none;">💖 SHE SAID YES 💖</h2>
 </div>
 
 <script>
 
-/* PAGE SWITCH */
-function next(n){
-  document.querySelectorAll(".page").forEach(p=>{
-    p.classList.remove("active");
-    p.style.display="none";
-  });
+/* 🎬 INTRO REMOVE */
+function startMovie(){
+  document.getElementById("intro").style.display="none";
+}
 
-  let el=document.getElementById("p"+n);
-  el.style.display="block";
-  setTimeout(()=>el.classList.add("active"),50);
+/* PAGE SWITCH */
+function nextPage(n){
+  let pages=document.getElementsByClassName("page");
+
+  for(let i=0;i<pages.length;i++){
+    pages[i].style.display="none";
+  }
+
+  document.getElementById("p"+n).style.display="block";
 }
 
 /* MUSIC START */
 document.body.addEventListener("click",()=>{
-  document.getElementById("m1").play().catch(()=>{});
+  document.getElementById("music1").play().catch(()=>{});
 },{once:true});
 
 /* CELEBRATION */
 function celebrate(){
   document.getElementById("result").style.display="block";
 
-  document.getElementById("m1").pause();
-  document.getElementById("m2").play().catch(()=>{});
+  document.getElementById("music1").pause();
+  document.getElementById("music2").play().catch(()=>{});
 
   for(let i=0;i<200;i++){
-    let b=document.createElement("div");
-    b.className="burst";
-    b.innerHTML="💖";
-    b.style.left=Math.random()*100+"vw";
-    b.style.top=Math.random()*100+"vh";
-    b.style.setProperty('--x',(Math.random()*500-250)+"px");
-    b.style.setProperty('--y',(Math.random()*500-250)+"px");
-    document.body.appendChild(b);
-    setTimeout(()=>b.remove(),1200);
+    let f=document.createElement("div");
+    f.className="firework";
+    f.style.left=Math.random()*100+"vw";
+    f.style.top=Math.random()*100+"vh";
+    f.style.setProperty('--x',(Math.random()*500-250)+"px");
+    f.style.setProperty('--y',(Math.random()*500-250)+"px");
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1200);
   }
 }
 
 /* NO BUTTON MOVE */
-function moveNo(){
+function moveBtn(){
   let b=document.getElementById("noBtn");
   b.style.position="absolute";
   b.style.left=Math.random()*80+"%";
@@ -207,21 +255,10 @@ setInterval(()=>{
   h.innerHTML="❤️";
   h.style.left=Math.random()*100+"vw";
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),6000);
+  setTimeout(()=>h.remove(),5000);
 },400);
 
-/* SHOOTING STAR */
-function shoot(){
-  let s=document.createElement("div");
-  s.className="star";
-  s.style.left=Math.random()*100+"vw";
-  s.style.top=Math.random()*100+"vh";
-  document.body.appendChild(s);
-  setTimeout(()=>s.remove(),1000);
-}
-setInterval(shoot,2000);
-
-/* STAR CANVAS */
+/* STARS */
 let c=document.getElementById("stars");
 let ctx=c.getContext("2d");
 c.width=innerWidth;
