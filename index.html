@@ -1,4 +1,4 @@
-6<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 <title>For Drashti ❤️</title>
@@ -24,11 +24,11 @@ body{
   justify-content:center;
   align-items:center;
   z-index:9999;
+  transition:0.8s;
 }
 
 #intro h1{
   color:#ff4d6d;
-  opacity:0;
   animation:fadeIn 2s forwards;
 }
 
@@ -39,6 +39,7 @@ body{
   background:#ff4d6d;
   color:white;
   margin-top:20px;
+  cursor:pointer;
 }
 
 /* ✨ PAGES */
@@ -136,7 +137,7 @@ button{
   <button onclick="startMovie()">Enter ❤️</button>
 </div>
 
-<!-- MUSIC -->
+<!-- 🎵 MUSIC -->
 <audio id="music1" src="song1.mp3"></audio>
 <audio id="music2" src="song2.mp3"></audio>
 
@@ -149,18 +150,19 @@ button{
 
 <!-- PAGE 2 -->
 <div class="page" id="p2">
-  <img src="Screenshot.png" width="300">
+  <img src="Screenshot.png" width="300"
+       onerror="this.src='https://via.placeholder.com/300'">
   <p>The day I saw you...</p>
-  <button onclick="nextPage(3)">Next</button>
+  <button onclick="nextPage(3)">Next ➡️</button>
 </div>
 
 <!-- PAGE 3 (Typing) -->
 <div class="page" id="p3">
   <p id="typing"></p>
-  <button onclick="nextPage('reel')">Next</button>
+  <button onclick="nextPage('reel')">Next ➡️</button>
 </div>
 
-<!-- REELS -->
+<!-- 📸 REELS -->
 <div class="page" id="preel">
   <h2>Memories 💖</h2>
   <div class="reel-container">
@@ -168,20 +170,20 @@ button{
     <div class="reel"><img src="photo2.jpg"></div>
     <div class="reel"><img src="photo3.jpg"></div>
   </div>
-  <button onclick="nextPage(5)">Next</button>
+  <button onclick="nextPage(5)">Next ➡️</button>
 </div>
 
-<!-- VIDEO -->
+<!-- 🎥 VIDEO -->
 <div class="page" id="p5">
   <div class="video-box">
     <video id="video" width="90%" controls>
       <source src="video.mp4" type="video/mp4">
     </video>
   </div>
-  <button onclick="nextPage(4)">Next</button>
+  <button onclick="nextPage(4)">Next 💖</button>
 </div>
 
-<!-- FINAL -->
+<!-- 💖 FINAL -->
 <div class="page" id="p4">
   <h2>Will you be mine? 💍</h2>
   <button onclick="celebrate()">YES 💖</button>
@@ -197,7 +199,18 @@ button{
 
 /* 🎬 START */
 function startMovie(){
-  document.getElementById("intro").style.display="none";
+  let intro = document.getElementById("intro");
+
+  intro.style.opacity = "0";
+
+  setTimeout(()=>{
+    intro.style.display = "none";
+  },800);
+
+  document.getElementById("p1").classList.add("active");
+
+  let m = document.getElementById("music1");
+  m.play().catch(()=>{});
 }
 
 /* PAGE SWITCH */
@@ -219,12 +232,10 @@ function nextPage(n){
 
   target.classList.add("active");
 
-  // typing effect
   if(n === 3){
     startTyping();
   }
 
-  // video play
   if(n === 5){
     let v=document.getElementById("video");
     v.play().catch(()=>{});
@@ -249,14 +260,6 @@ function type(){
   }
 }
 
-/* 🎶 MUSIC FIX */
-document.body.addEventListener("click",()=>{
-  let m=document.getElementById("music1");
-  if(m.paused){
-    m.play().catch(()=>{});
-  }
-},{once:true});
-
 /* 🌹 PETALS */
 setInterval(()=>{
   let p=document.createElement("div");
@@ -274,3 +277,30 @@ setInterval(()=>{
 function celebrate(){
   document.getElementById("result").style.display="block";
 
+  document.getElementById("music1").pause();
+  document.getElementById("music2").play().catch(()=>{});
+
+  for(let i=0;i<300;i++){
+    let f=document.createElement("div");
+    f.className="firework";
+    f.style.left=Math.random()*100+"vw";
+    f.style.top=Math.random()*100+"vh";
+    f.style.setProperty('--x',(Math.random()*800-400)+"px");
+    f.style.setProperty('--y",(Math.random()*800-400)+"px");
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1200);
+  }
+}
+
+/* 😆 NO BUTTON RUN */
+function moveBtn(){
+  let b=document.getElementById("noBtn");
+  b.style.position="absolute";
+  b.style.left=Math.random()*80+"%";
+  b.style.top=Math.random()*80+"%";
+}
+
+</script>
+
+</body>
+</html>
