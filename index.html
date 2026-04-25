@@ -16,18 +16,11 @@ body {
   display:none;
   padding-top:80px;
 }
-
 .active { display:block; }
 
 img {
   width:250px;
   border-radius:15px;
-  animation:zoom 5s infinite alternate;
-}
-
-@keyframes zoom {
-  from {transform:scale(1);}
-  to {transform:scale(1.1);}
 }
 
 button {
@@ -38,10 +31,7 @@ button {
   background:#ff4d6d;
   color:white;
   font-size:16px;
-  cursor:pointer;
 }
-
-button:hover { transform:scale(1.1); }
 
 /* Hearts */
 .heart {
@@ -54,14 +44,13 @@ button:hover { transform:scale(1.1); }
   100% {transform:translateY(-10vh);}
 }
 
-/* Firework */
+/* Fireworks */
 .firework {
   position:absolute;
-  width:8px;
-  height:8px;
-  background:pink;
+  width:10px;
+  height:10px;
   border-radius:50%;
-  animation:explode 1s ease-out forwards;
+  animation:explode 1.5s ease-out forwards;
 }
 @keyframes explode {
   to {
@@ -69,50 +58,39 @@ button:hover { transform:scale(1.1); }
     opacity:0;
   }
 }
-
-/* Typing */
-.typing {
-  overflow:hidden;
-  white-space:nowrap;
-  border-right:2px solid;
-  animation:typing 3s steps(30), blink .6s infinite;
-}
-@keyframes typing {
-  from {width:0}
-  to {width:100%}
-}
-@keyframes blink {
-  50% {border-color:transparent}
-}
 </style>
 
 </head>
 
 <body>
 
-<!-- Music -->
-<audio id="music" loop>
-  <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3">
+<!-- 🎵 MUSIC -->
+<audio id="music1">
+  <source src="song1.mp3" type="audio/mp3">
+</audio>
+
+<audio id="music2">
+  <source src="song2.mp3" type="audio/mp3">
 </audio>
 
 <!-- Page 1 -->
 <div class="page active" id="p1">
-  <h1 class="typing">Hi Drashti Singh 💖</h1>
-  <p>This is something special for you...</p>
+  <h1>Hi Drashti Singh 💖</h1>
+  <p>Tap to start something special...</p>
   <button onclick="startSite()">Start 💌</button>
 </div>
 
 <!-- Page 2 -->
 <div class="page" id="p2">
-  <img src="image.jpg.png.jpg">
-  <p class="typing">The day I saw you outside the KV school...</p>
+  <img src="YOUR-IMAGE-NAME.jpg">
+  <p>The day I saw you outside the KV school...</p>
   <p>I fell in love with you ❤️</p>
   <button onclick="nextPage(3)">Next ➡️</button>
 </div>
 
 <!-- Page 3 -->
 <div class="page" id="p3">
-  <p class="typing">I don’t know when it happened...</p>
+  <p>I don’t know when it happened...</p>
   <p>Your smile stayed in my mind...</p>
   <p>You became very special 💖</p>
   <button onclick="nextPage(4)">Next ➡️</button>
@@ -132,7 +110,8 @@ button:hover { transform:scale(1.1); }
 
 <script>
 function startSite(){
-  document.getElementById("music").play();
+  let m1 = document.getElementById("music1");
+  m1.play().catch(()=>{});
   nextPage(2);
 }
 
@@ -144,20 +123,29 @@ function nextPage(n){
   document.getElementById("p"+n).style.display="block";
 }
 
-/* YES celebration */
+/* YES celebration + 2nd song */
 function celebrate(){
   document.getElementById("result").style.display="block";
 
-  for(let i=0;i<40;i++){
+  let m1 = document.getElementById("music1");
+  let m2 = document.getElementById("music2");
+
+  m1.pause();
+  m2.play().catch(()=>{});
+
+  for(let i=0;i<60;i++){
     let f=document.createElement("div");
     f.className="firework";
     f.style.left="50%";
     f.style.top="50%";
-    f.style.setProperty('--x',(Math.random()*200-100)+"px");
-    f.style.setProperty('--y',(Math.random()*200-100)+"px");
+    f.style.background = "hsl(" + Math.random()*360 + ",100%,50%)";
+
+    f.style.setProperty('--x',(Math.random()*300-150)+"px");
+    f.style.setProperty('--y',(Math.random()*300-150)+"px");
+
     document.body.appendChild(f);
 
-    setTimeout(()=>f.remove(),1000);
+    setTimeout(()=>f.remove(),1500);
   }
 }
 
@@ -178,7 +166,7 @@ setInterval(()=>{
   document.body.appendChild(h);
 
   setTimeout(()=>h.remove(),5000);
-},700);
+},800);
 </script>
 
 </body>
