@@ -6,10 +6,28 @@
 <style>
 body {
   margin:0;
-  font-family:sans-serif;
+  font-family:Arial, sans-serif;
   text-align:center;
   background:linear-gradient(to right,#ffd1dc,#fff);
   overflow:hidden;
+}
+
+/* Bigger text */
+h1 {
+  font-size:40px;
+  color:#ff1e56;
+  text-shadow:2px 2px 10px rgba(0,0,0,0.2);
+}
+
+h2 {
+  font-size:32px;
+  color:#ff1e56;
+}
+
+p {
+  font-size:20px;
+  font-weight:bold;
+  color:#333;
 }
 
 .page {
@@ -19,24 +37,27 @@ body {
 .active { display:block; }
 
 img {
-  width:250px;
-  border-radius:15px;
+  width:280px;
+  border-radius:20px;
+  box-shadow:0 0 25px rgba(0,0,0,0.3);
 }
 
 button {
-  padding:10px 20px;
-  margin:10px;
+  padding:12px 25px;
+  margin:12px;
   border:none;
   border-radius:25px;
   background:#ff4d6d;
   color:white;
-  font-size:16px;
+  font-size:18px;
+  cursor:pointer;
 }
+button:hover { transform:scale(1.1); }
 
 /* Hearts */
 .heart {
   position:absolute;
-  font-size:20px;
+  font-size:22px;
   animation:float 5s linear infinite;
 }
 @keyframes float {
@@ -47,16 +68,14 @@ button {
 /* Fireworks */
 .firework {
   position:absolute;
-  width:10px;
-  height:10px;
+  width:6px;
+  height:6px;
   border-radius:50%;
   animation:explode 1.5s ease-out forwards;
 }
 @keyframes explode {
-  to {
-    transform:translate(var(--x), var(--y));
-    opacity:0;
-  }
+  from {transform:translate(0,0); opacity:1;}
+  to {transform:translate(var(--x), var(--y)); opacity:0;}
 }
 </style>
 
@@ -76,13 +95,13 @@ button {
 <!-- Page 1 -->
 <div class="page active" id="p1">
   <h1>Hi Drashti Singh 💖</h1>
-  <p>Tap to start something special...</p>
+  <p>This is something special for you...</p>
   <button onclick="startSite()">Start 💌</button>
 </div>
 
 <!-- Page 2 -->
 <div class="page" id="p2">
-  <img src="YOUR-IMAGE-NAME.jpg">
+  <img src="image.jpg.png">
   <p>The day I saw you outside the KV school...</p>
   <p>I fell in love with you ❤️</p>
   <button onclick="nextPage(3)">Next ➡️</button>
@@ -105,13 +124,12 @@ button {
   <button onclick="alert('Take your time 😊')">I need sometime 🤍</button>
   <button id="noBtn" onmouseover="moveBtn()">Na ka to option hi nahi hai madam 🙃</button>
 
-  <h3 id="result" style="display:none;color:#ff4d6d;">💖 She said YES! 💖</h3>
+  <h2 id="result" style="display:none;color:#ff1e56;">💖 She said YES! 💖</h2>
 </div>
 
 <script>
 function startSite(){
-  let m1 = document.getElementById("music1");
-  m1.play().catch(()=>{});
+  document.getElementById("music1").play().catch(()=>{});
   nextPage(2);
 }
 
@@ -123,25 +141,26 @@ function nextPage(n){
   document.getElementById("p"+n).style.display="block";
 }
 
-/* YES celebration + 2nd song */
+/* Fireworks + 2nd song */
 function celebrate(){
   document.getElementById("result").style.display="block";
 
-  let m1 = document.getElementById("music1");
-  let m2 = document.getElementById("music2");
+  let m1=document.getElementById("music1");
+  let m2=document.getElementById("music2");
 
   m1.pause();
   m2.play().catch(()=>{});
 
-  for(let i=0;i<60;i++){
+  for(let i=0;i<150;i++){
     let f=document.createElement("div");
     f.className="firework";
-    f.style.left="50%";
-    f.style.top="50%";
-    f.style.background = "hsl(" + Math.random()*360 + ",100%,50%)";
 
-    f.style.setProperty('--x',(Math.random()*300-150)+"px");
-    f.style.setProperty('--y',(Math.random()*300-150)+"px");
+    f.style.left=Math.random()*100+"vw";
+    f.style.top=Math.random()*100+"vh";
+    f.style.background="hsl("+Math.random()*360+",100%,50%)";
+
+    f.style.setProperty('--x',(Math.random()*500-250)+"px");
+    f.style.setProperty('--y',(Math.random()*500-250)+"px");
 
     document.body.appendChild(f);
 
@@ -166,7 +185,7 @@ setInterval(()=>{
   document.body.appendChild(h);
 
   setTimeout(()=>h.remove(),5000);
-},800);
+},700);
 </script>
 
 </body>
