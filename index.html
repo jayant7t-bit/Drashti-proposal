@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>For Drashti ❤️</title>
+<title>For Drashti Singh ❤️</title>
 
 <style>
 body {
@@ -9,6 +9,7 @@ body {
   font-family:sans-serif;
   text-align:center;
   background:linear-gradient(to right,#ffd1dc,#fff);
+  overflow:hidden;
 }
 
 .page {
@@ -16,18 +17,72 @@ body {
   padding-top:80px;
 }
 
-.active {
-  display:block;
+.active { display:block; }
+
+img {
+  width:250px;
+  border-radius:15px;
+  animation:zoom 5s infinite alternate;
+}
+
+@keyframes zoom {
+  from {transform:scale(1);}
+  to {transform:scale(1.1);}
 }
 
 button {
   padding:10px 20px;
   margin:10px;
   border:none;
-  border-radius:20px;
+  border-radius:25px;
   background:#ff4d6d;
   color:white;
   font-size:16px;
+  cursor:pointer;
+}
+
+button:hover { transform:scale(1.1); }
+
+/* Hearts */
+.heart {
+  position:absolute;
+  font-size:20px;
+  animation:float 5s linear infinite;
+}
+@keyframes float {
+  0% {transform:translateY(100vh);}
+  100% {transform:translateY(-10vh);}
+}
+
+/* Firework */
+.firework {
+  position:absolute;
+  width:8px;
+  height:8px;
+  background:pink;
+  border-radius:50%;
+  animation:explode 1s ease-out forwards;
+}
+@keyframes explode {
+  to {
+    transform:translate(var(--x), var(--y));
+    opacity:0;
+  }
+}
+
+/* Typing */
+.typing {
+  overflow:hidden;
+  white-space:nowrap;
+  border-right:2px solid;
+  animation:typing 3s steps(30), blink .6s infinite;
+}
+@keyframes typing {
+  from {width:0}
+  to {width:100%}
+}
+@keyframes blink {
+  50% {border-color:transparent}
 }
 </style>
 
@@ -35,23 +90,29 @@ button {
 
 <body>
 
+<!-- Music -->
+<audio id="music" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3">
+</audio>
+
 <!-- Page 1 -->
 <div class="page active" id="p1">
-  <h1>Hi Drashti Singh 💖</h1>
+  <h1 class="typing">Hi Drashti Singh 💖</h1>
   <p>This is something special for you...</p>
-  <button onclick="nextPage(2)">Start 💌</button>
+  <button onclick="startSite()">Start 💌</button>
 </div>
 
 <!-- Page 2 -->
 <div class="page" id="p2">
-  <p>The day I saw you outside the KV school...</p>
+  <img src="image.jpg.png.jpg">
+  <p class="typing">The day I saw you outside the KV school...</p>
   <p>I fell in love with you ❤️</p>
   <button onclick="nextPage(3)">Next ➡️</button>
 </div>
 
 <!-- Page 3 -->
 <div class="page" id="p3">
-  <p>I don’t know when it happened...</p>
+  <p class="typing">I don’t know when it happened...</p>
   <p>Your smile stayed in my mind...</p>
   <p>You became very special 💖</p>
   <button onclick="nextPage(4)">Next ➡️</button>
@@ -61,20 +122,63 @@ button {
 <div class="page" id="p4">
   <h2>Will you be mine? 💍</h2>
 
-  <button onclick="alert('Yay 💖')">YES 💖</button>
-  <button onclick="alert('Aww 💞')">ALWAYS YES 💞</button>
+  <button onclick="celebrate()">YES 💖</button>
+  <button onclick="celebrate()">ALWAYS YES 💞</button>
   <button onclick="alert('Take your time 😊')">I need sometime 🤍</button>
-  <button onclick="alert('😄 Okay okay!')">Na ka to option hi nahi hai madam 🙃</button>
+  <button id="noBtn" onmouseover="moveBtn()">Na ka to option hi nahi hai madam 🙃</button>
+
+  <h3 id="result" style="display:none;color:#ff4d6d;">💖 She said YES! 💖</h3>
 </div>
 
 <script>
+function startSite(){
+  document.getElementById("music").play();
+  nextPage(2);
+}
+
 function nextPage(n){
-  var pages = document.getElementsByClassName("page");
+  var pages=document.getElementsByClassName("page");
   for(var i=0;i<pages.length;i++){
     pages[i].style.display="none";
   }
   document.getElementById("p"+n).style.display="block";
 }
+
+/* YES celebration */
+function celebrate(){
+  document.getElementById("result").style.display="block";
+
+  for(let i=0;i<40;i++){
+    let f=document.createElement("div");
+    f.className="firework";
+    f.style.left="50%";
+    f.style.top="50%";
+    f.style.setProperty('--x',(Math.random()*200-100)+"px");
+    f.style.setProperty('--y',(Math.random()*200-100)+"px");
+    document.body.appendChild(f);
+
+    setTimeout(()=>f.remove(),1000);
+  }
+}
+
+/* Moving NO button */
+function moveBtn(){
+  let btn=document.getElementById("noBtn");
+  btn.style.position="absolute";
+  btn.style.left=Math.random()*80+"%";
+  btn.style.top=Math.random()*80+"%";
+}
+
+/* Background hearts */
+setInterval(()=>{
+  let h=document.createElement("div");
+  h.className="heart";
+  h.innerHTML="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+
+  setTimeout(()=>h.remove(),5000);
+},700);
 </script>
 
 </body>
