@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>For my Jaan ❤️</title>
+<title>For Drashti ❤️</title>
 
 <style>
 body{
@@ -13,7 +13,7 @@ body{
   color:white;
 }
 
-/* 🎬 MOVIE INTRO SCREEN */
+/* 🎬 INTRO */
 #intro{
   position:fixed;
   width:100%;
@@ -21,86 +21,95 @@ body{
   background:black;
   display:flex;
   flex-direction:column;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   z-index:9999;
 }
 
 #intro h1{
-  font-size:40px;
   color:#ff4d6d;
   opacity:0;
-  animation:fadeIn 3s forwards;
-}
-
-#intro p{
-  font-size:20px;
-  margin-top:10px;
-  opacity:0;
-  animation:fadeIn 4s forwards;
-  animation-delay:1s;
+  animation:fadeIn 2s forwards;
 }
 
 #intro button{
-  margin-top:30px;
   padding:12px 25px;
   border:none;
   border-radius:25px;
   background:#ff4d6d;
   color:white;
-  font-size:18px;
+  margin-top:20px;
+}
+
+/* ✨ PAGES */
+.page{
+  display:none;
+  padding-top:80px;
   opacity:0;
-  animation:fadeIn 5s forwards;
-  animation-delay:2s;
+  transform:scale(0.95);
+  transition:all 0.8s ease;
 }
 
-@keyframes fadeIn{
-  to{opacity:1}
+.page.active{
+  display:block;
+  opacity:1;
+  transform:scale(1);
 }
 
-/* 🌌 BACKGROUND */
-canvas{
+/* 📸 REELS */
+.reel-container{
+  height:80vh;
+  overflow-y:scroll;
+  scroll-snap-type:y mandatory;
+}
+
+.reel{
+  height:80vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  scroll-snap-align:start;
+}
+
+.reel img{
+  height:90%;
+  border-radius:20px;
+  box-shadow:0 0 30px #ff4d6d;
+}
+
+/* 🎥 VIDEO */
+.video-box{
+  animation:zoom 1.2s ease;
+}
+
+@keyframes zoom{
+  from{transform:scale(1.3);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+/* 🌹 PETALS */
+@keyframes fall{
+  to{
+    transform:translateY(100vh) rotate(360deg);
+    opacity:0;
+  }
+}
+
+/* 💥 FIREWORK */
+.firework{
   position:fixed;
-  top:0;
-  left:0;
-  z-index:-3;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#ff4d6d;
+  animation:boom 1.2s ease-out forwards;
 }
 
-/* ❤️ HEART BACKGROUND */
-.love-bg{
-  position:fixed;
-  width:100%;
-  height:100%;
-  z-index:-2;
-}
-
-.bg-heart{
-  position:absolute;
-  font-size:18px;
-  animation:rise 8s linear forwards;
-}
-
-@keyframes rise{
-  0%{transform:translateY(100vh);opacity:0}
-  20%{opacity:1}
-  100%{transform:translateY(-110vh);opacity:0}
-}
-
-/* PAGES */
-.page{display:none;padding-top:80px;}
-.active{display:block}
-
-/* TEXT */
-h1{font-size:45px;color:#ff4d6d;}
-h2{font-size:35px;color:#ff4d6d;}
-p{font-size:20px}
-
-/* IMAGE */
-img{
-  width:420px;
-  max-width:85vw;
-  border-radius:25px;
-  box-shadow:0 0 35px rgba(255,77,109,0.7);
+@keyframes boom{
+  to{
+    transform:translate(var(--x),var(--y));
+    opacity:0;
+  }
 }
 
 /* BUTTON */
@@ -110,182 +119,435 @@ button{
   border-radius:25px;
   background:#ff4d6d;
   color:white;
-  font-size:18px;
   margin:10px;
 }
 
-/* HEARTS */
-.heart{
-  position:absolute;
-  font-size:20px;
-  animation:float 5s linear infinite;
-}
-
-@keyframes float{
-  0%{transform:translateY(100vh);opacity:0}
-  20%{opacity:1}
-  100%{transform:translateY(-10vh);opacity:0}
-}
-
-/* FIREWORKS */
-.firework{
-  position:fixed;
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  animation:boom 1.2s ease-out forwards;
-}
-
-@keyframes boom{
-  from{transform:translate(0,0);opacity:1}
-  to{transform:translate(var(--x),var(--y));opacity:0}
+@keyframes fadeIn{
+  to{opacity:1}
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🎬 MOVIE INTRO -->
+<!-- 🎬 INTRO -->
 <div id="intro">
   <h1>A Love Story Begins... ❤️</h1>
-  <p>For someone very special — Jaan 💖</p>
-  <button onclick="startMovie()">Enter Story ➡️</button>
+  <button onclick="startMovie()">Enter ❤️</button>
 </div>
 
-<!-- BACKGROUND -->
-<div class="love-bg" id="loveBg"></div>
-<canvas id="stars"></canvas>
-
 <!-- MUSIC -->
-<audio id="music1" src="Bheegi Bheegi .mp3"></audio>
-<audio id="music2" src="Bheegi Bheegi .mp3"></audio>
+<audio id="music1" src="song1.mp3"></audio>
+<audio id="music2" src="song2.mp3"></audio>
 
 <!-- PAGE 1 -->
 <div class="page active" id="p1">
-  <h1>Hi Jaan 💖</h1>
+  <h1>Hi Drashti 💖</h1>
   <p>This is something special for you...</p>
   <button onclick="nextPage(2)">Start 💌</button>
 </div>
 
 <!-- PAGE 2 -->
 <div class="page" id="p2">
-  <img src="Image.jpg.png"
-       onerror="this.src='https://via.placeholder.com/420'">
-
-  <p>The day I saw you ...</p>
-  <p>I fell in love with you ❤️</p>
-  <button onclick="nextPage(3)">Next ➡️</button>
+  <img src="Screenshot.png" width="300">
+  <p>The day I saw you...</p>
+  <button onclick="nextPage(3)">Next</button>
 </div>
 
-<!-- PAGE 3 -->
+<!-- PAGE 3 (Typing) -->
 <div class="page" id="p3">
-  <p>I don’t know when it happened...</p>
-  <p>Your smile stayed in my mind...</p>
-  <p>You became very special 💖</p>
-  <button onclick="nextPage(4)">Next ➡️</button>
+  <p id="typing"></p>
+  <button onclick="nextPage('reel')">Next</button>
 </div>
 
-<!-- PAGE 4 -->
+<!-- REELS -->
+<div class="page" id="preel">
+  <h2>Memories 💖</h2>
+  <div class="reel-container">
+    <div class="reel"><img src="photo1.jpg"></div>
+    <div class="reel"><img src="photo2.jpg"></div>
+    <div class="reel"><img src="photo3.jpg"></div>
+  </div>
+  <button onclick="nextPage(5)">Next</button>
+</div>
+
+<!-- VIDEO -->
+<div class="page" id="p5">
+  <div class="video-box">
+    <video id="video" width="90%" controls>
+      <source src="video.mp4" type="video/mp4">
+    </video>
+  </div>
+  <button onclick="nextPage(4)">Next</button>
+</div>
+
+<!-- FINAL -->
 <div class="page" id="p4">
   <h2>Will you be mine? 💍</h2>
-
   <button onclick="celebrate()">YES 💖</button>
   <button onclick="celebrate()">ALWAYS YES 💞</button>
-  <button onclick="alert('Take your time 😊')">I need time 🤍</button>
-
   <button id="noBtn" onmouseover="moveBtn()">No 🙃</button>
 
-  <h2 id="result" style="display:none;">💖 SHE SAID YES 💖</h2>
+  <h2 id="result" style="display:none;">
+    💖 SHE SAID YES 💖
+  </h2>
 </div>
 
 <script>
 
-/* 🎬 INTRO REMOVE */
+/* 🎬 START */
 function startMovie(){
   document.getElementById("intro").style.display="none";
 }
 
 /* PAGE SWITCH */
 function nextPage(n){
+
   let pages=document.getElementsByClassName("page");
 
   for(let i=0;i<pages.length;i++){
-    pages[i].style.display="none";
+    pages[i].classList.remove("active");
   }
 
-  document.getElementById("p"+n).style.display="block";
+  let target;
+
+  if(n === 'reel'){
+    target = document.getElementById("preel");
+  }else{
+    target = document.getElementById("p"+n);
+  }
+
+  target.classList.add("active");
+
+  // typing effect
+  if(n === 3){
+    startTyping();
+  }
+
+  // video play
+  if(n === 5){
+    let v=document.getElementById("video");
+    v.play().catch(()=>{});
+  }
 }
 
-/* MUSIC START */
+/* 💌 TYPING */
+let text="I don't know when it happened... but you became my favorite feeling 💖";
+let i=0;
+
+function startTyping(){
+  document.getElementById("typing").innerHTML="";
+  i=0;
+  type();
+}
+
+function type(){
+  if(i<text.length){
+    document.getElementById("typing").innerHTML+=text.charAt(i);
+    i++;
+    setTimeout(type,40);
+  }
+}
+
+/* 🎶 MUSIC FIX */
 document.body.addEventListener("click",()=>{
-  document.getElementById("music1").play().catch(()=>{});
+  let m=document.getElementById("music1");
+  if(m.paused){
+    m.play().catch(()=>{});
+  }
 },{once:true});
 
-/* CELEBRATION */
+/* 🌹 PETALS */
+setInterval(()=>{
+  let p=document.createElement("div");
+  p.innerHTML="🌹";
+  p.style.position="absolute";
+  p.style.left=Math.random()*100+"vw";
+  p.style.top="-20px";
+  p.style.fontSize="20px";
+  p.style.animation="fall 6s linear";
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),6000);
+},300);
+
+/* 💥 CELEBRATION */
 function celebrate(){
   document.getElementById("result").style.display="block";
 
-  document.getElementById("music1").pause();
-  document.getElementById("music2").play().catch(()=>{});
+  document<!DOCTYPE html>
+<html>
+<head>
+<title>For Drashti ❤️</title>
 
-  for(let i=0;i<200;i++){
-    let f=document.createElement("div");
-    f.className="firework";
-    f.style.left=Math.random()*100+"vw";
-    f.style.top=Math.random()*100+"vh";
-    f.style.setProperty('--x',(Math.random()*500-250)+"px");
-    f.style.setProperty('--y',(Math.random()*500-250)+"px");
-    document.body.appendChild(f);
-    setTimeout(()=>f.remove(),1200);
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  overflow:hidden;
+  text-align:center;
+  background:black;
+  color:white;
+}
+
+/* 🎬 INTRO */
+#intro{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:black;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
+}
+
+#intro h1{
+  color:#ff4d6d;
+  opacity:0;
+  animation:fadeIn 2s forwards;
+}
+
+#intro button{
+  padding:12px 25px;
+  border:none;
+  border-radius:25px;
+  background:#ff4d6d;
+  color:white;
+  margin-top:20px;
+}
+
+/* ✨ PAGES */
+.page{
+  display:none;
+  padding-top:80px;
+  opacity:0;
+  transform:scale(0.95);
+  transition:all 0.8s ease;
+}
+
+.page.active{
+  display:block;
+  opacity:1;
+  transform:scale(1);
+}
+
+/* 📸 REELS */
+.reel-container{
+  height:80vh;
+  overflow-y:scroll;
+  scroll-snap-type:y mandatory;
+}
+
+.reel{
+  height:80vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  scroll-snap-align:start;
+}
+
+.reel img{
+  height:90%;
+  border-radius:20px;
+  box-shadow:0 0 30px #ff4d6d;
+}
+
+/* 🎥 VIDEO */
+.video-box{
+  animation:zoom 1.2s ease;
+}
+
+@keyframes zoom{
+  from{transform:scale(1.3);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+/* 🌹 PETALS */
+@keyframes fall{
+  to{
+    transform:translateY(100vh) rotate(360deg);
+    opacity:0;
   }
 }
 
-/* NO BUTTON MOVE */
-function moveBtn(){
-  let b=document.getElementById("noBtn");
-  b.style.position="absolute";
-  b.style.left=Math.random()*80+"%";
-  b.style.top=Math.random()*80+"%";
+/* 💥 FIREWORK */
+.firework{
+  position:fixed;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#ff4d6d;
+  animation:boom 1.2s ease-out forwards;
 }
 
-/* HEARTS */
+@keyframes boom{
+  to{
+    transform:translate(var(--x),var(--y));
+    opacity:0;
+  }
+}
+
+/* BUTTON */
+button{
+  padding:12px 22px;
+  border:none;
+  border-radius:25px;
+  background:#ff4d6d;
+  color:white;
+  margin:10px;
+}
+
+@keyframes fadeIn{
+  to{opacity:1}
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎬 INTRO -->
+<div id="intro">
+  <h1>A Love Story Begins... ❤️</h1>
+  <button onclick="startMovie()">Enter ❤️</button>
+</div>
+
+<!-- MUSIC -->
+<audio id="music1" src="song1.mp3"></audio>
+<audio id="music2" src="song2.mp3"></audio>
+
+<!-- PAGE 1 -->
+<div class="page active" id="p1">
+  <h1>Hi Drashti 💖</h1>
+  <p>This is something special for you...</p>
+  <button onclick="nextPage(2)">Start 💌</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="p2">
+  <img src="Screenshot.png" width="300">
+  <p>The day I saw you...</p>
+  <button onclick="nextPage(3)">Next</button>
+</div>
+
+<!-- PAGE 3 (Typing) -->
+<div class="page" id="p3">
+  <p id="typing"></p>
+  <button onclick="nextPage('reel')">Next</button>
+</div>
+
+<!-- REELS -->
+<div class="page" id="preel">
+  <h2>Memories 💖</h2>
+  <div class="reel-container">
+    <div class="reel"><img src="photo1.jpg"></div>
+    <div class="reel"><img src="photo2.jpg"></div>
+    <div class="reel"><img src="photo3.jpg"></div>
+  </div>
+  <button onclick="nextPage(5)">Next</button>
+</div>
+
+<!-- VIDEO -->
+<div class="page" id="p5">
+  <div class="video-box">
+    <video id="video" width="90%" controls>
+      <source src="video.mp4" type="video/mp4">
+    </video>
+  </div>
+  <button onclick="nextPage(4)">Next</button>
+</div>
+
+<!-- FINAL -->
+<div class="page" id="p4">
+  <h2>Will you be mine? 💍</h2>
+  <button onclick="celebrate()">YES 💖</button>
+  <button onclick="celebrate()">ALWAYS YES 💞</button>
+  <button id="noBtn" onmouseover="moveBtn()">No 🙃</button>
+
+  <h2 id="result" style="display:none;">
+    💖 SHE SAID YES 💖
+  </h2>
+</div>
+
+<script>
+
+/* 🎬 START */
+function startMovie(){
+  document.getElementById("intro").style.display="none";
+}
+
+/* PAGE SWITCH */
+function nextPage(n){
+
+  let pages=document.getElementsByClassName("page");
+
+  for(let i=0;i<pages.length;i++){
+    pages[i].classList.remove("active");
+  }
+
+  let target;
+
+  if(n === 'reel'){
+    target = document.getElementById("preel");
+  }else{
+    target = document.getElementById("p"+n);
+  }
+
+  target.classList.add("active");
+
+  // typing effect
+  if(n === 3){
+    startTyping();
+  }
+
+  // video play
+  if(n === 5){
+    let v=document.getElementById("video");
+    v.play().catch(()=>{});
+  }
+}
+
+/* 💌 TYPING */
+let text="I don't know when it happened... but you became my favorite feeling 💖";
+let i=0;
+
+function startTyping(){
+  document.getElementById("typing").innerHTML="";
+  i=0;
+  type();
+}
+
+function type(){
+  if(i<text.length){
+    document.getElementById("typing").innerHTML+=text.charAt(i);
+    i++;
+    setTimeout(type,40);
+  }
+}
+
+/* 🎶 MUSIC FIX */
+document.body.addEventListener("click",()=>{
+  let m=document.getElementById("music1");
+  if(m.paused){
+    m.play().catch(()=>{});
+  }
+},{once:true});
+
+/* 🌹 PETALS */
 setInterval(()=>{
-  let h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="❤️";
-  h.style.left=Math.random()*100+"vw";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),5000);
-},400);
+  let p=document.createElement("div");
+  p.innerHTML="🌹";
+  p.style.position="absolute";
+  p.style.left=Math.random()*100+"vw";
+  p.style.top="-20px";
+  p.style.fontSize="20px";
+  p.style.animation="fall 6s linear";
+  document.body.appendChild(p);
+  setTimeout(()=>p.remove(),6000);
+},300);
 
-/* STARS */
-let c=document.getElementById("stars");
-let ctx=c.getContext("2d");
-c.width=innerWidth;
-c.height=innerHeight;
+/* 💥 CELEBRATION */
+function celebrate(){
+  document.getElementById("result").style.display="block";
 
-let stars=[];
-for(let i=0;i<120;i++){
-  stars.push({x:Math.random()*c.width,y:Math.random()*c.height});
-}
-
-function draw(){
-  ctx.clearRect(0,0,c.width,c.height);
-  ctx.fillStyle="white";
-
-  stars.forEach(s=>{
-    ctx.beginPath();
-    ctx.arc(s.x,s.y,1,0,Math.PI*2);
-    ctx.fill();
-    s.y+=0.3;
-    if(s.y>c.height)s.y=0;
-  });
-
-  requestAnimationFrame(draw);
-}
-draw();
-
-</script>
-
-</body>
-</html>
+  document
