@@ -36,7 +36,6 @@ button{
   margin:10px;
 }
 
-/* pages */
 .page{
   display:none;
   padding-top:80px;
@@ -56,14 +55,12 @@ button{
   height:80vh;
   overflow-y:scroll;
 }
-
 .reel{
   height:80vh;
   display:flex;
   justify-content:center;
   align-items:center;
 }
-
 .reel img{
   height:90%;
   border-radius:20px;
@@ -81,7 +78,6 @@ video{
   height:70vh;
   overflow-y:scroll;
 }
-
 .pics-container img{
   width:90%;
   margin:20px 0;
@@ -90,7 +86,6 @@ video{
   transform:translateY(50px);
   transition:1s;
 }
-
 .pics-container img.show{
   opacity:1;
   transform:translateY(0);
@@ -123,23 +118,6 @@ video{
   }
 }
 
-/* proposal */
-.ring{
-  font-size:60px;
-  animation: floatRing 2s infinite ease-in-out;
-}
-
-@keyframes floatRing{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-20px);}
-}
-
-#result{
-  display:none;
-  font-size:40px;
-  text-shadow:0 0 25px pink;
-}
-
 /* roses */
 .rose{
   position:fixed;
@@ -155,19 +133,21 @@ video{
   }
 }
 
-/* cinematic video overlay */
-#videoOverlay{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.85);
+/* proposal */
+.ring{
+  font-size:60px;
+  animation: floatRing 2s infinite ease-in-out;
+}
+
+@keyframes floatRing{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-20px);}
+}
+
+#result{
   display:none;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  z-index:999;
+  font-size:40px;
+  text-shadow:0 0 25px pink;
 }
 </style>
 </head>
@@ -187,7 +167,7 @@ video{
 
 <!-- PAGE 1 -->
 <div class="page active" id="p1">
-  <h1>Hi Mrs. Drashti 💖</h1>
+  <h1>Hi Drashti 💖</h1>
   <button onclick="nextPage(2)">Start</button>
 </div>
 
@@ -207,7 +187,6 @@ video{
 <!-- REELS -->
 <div class="page" id="preel">
   <div class="reel-container">
-    <p>⬇️ Scroll down ⬇️</p>
     <div class="reel"><img src="Drasti1.jpg"></div>
     <div class="reel"><img src="Drasti2.jpg"></div>
     <div class="reel"><img src="Drasti4.jpg"></div>
@@ -215,7 +194,7 @@ video{
   <button onclick="nextPage(5)">Next</button>
 </div>
 
-<!-- VIDEO SEQUENCE -->
+<!-- VIDEO -->
 <div class="page" id="p5">
   <video id="videoPlayer" controls></video>
   <button onclick="nextPage('pics')">Next</button>
@@ -224,9 +203,6 @@ video{
 <!-- INTENTIONS -->
 <div class="page" id="pPics">
   <h2>My Intentions for You 💞💕</h2>
-  <p>⬇️ Scroll slowly ⬇️</p>
-  <div id="lyrics"></div>
-
   <div class="pics-container" id="scrollBox">
     <img src="Dr1.jpg">
     <img src="Dr2.jpg">
@@ -234,32 +210,27 @@ video{
     <img src="Dr4.jpg">
     <img src="Dr5.jpg">
   </div>
-
   <button onclick="nextPage('promise')">Next 💖</button>
 </div>
 
 <!-- PROMISES -->
 <div class="page" id="pPromise">
   <h2>My Promises to You 💖</h2>
-  <p>⬇️ Scroll down ⬇️</p>
-
   <div class="pics-container" id="promiseBox">
     <img src="P1.jpg">
     <img src="P2.jpg">
     <img src="P3.jpg">
     <img src="P4.jpg">
   </div>
-
-  <button onclick="nextPage('promiseVideo')">Watch This 🎬</button>
+  <button onclick="nextPage('promiseVideo')">Watch 🎬</button>
 </div>
 
-<!-- 🎬 CINEMATIC VIDEO -->
+<!-- VIDEO -->
 <div class="page" id="pPromiseVideo">
-  <h2>One More Thing For You ❤️</h2>
+  <h2>One More Thing ❤️</h2>
   <video id="promiseVideo" controls playsinline>
-    <source src="final.mp4" type="video/mp4">
+    <source src="D2.mp4" type="video/mp4">
   </video>
-  <br><br>
   <button onclick="nextPage(4)">Next 💍</button>
 </div>
 
@@ -267,20 +238,27 @@ video{
 <div class="page" id="p4">
   <h2>Will you be mine? 💍</h2>
   <div class="ring">💍</div>
-
   <button onclick="celebrate()">YES 💖</button>
   <button onclick="celebrate()">ALWAYS YES 💞</button>
   <button id="noBtn" onmouseover="moveBtn()">No 🙃</button>
-
   <h2 id="result">💖 SHE SAID YES 💖</h2>
 </div>
 
 <script>
 
+let music1Started=false;
+
 /* ENTER */
 document.getElementById("enterBtn").onclick = ()=>{
   document.getElementById("intro").style.display="none";
-  playMusic("music1",0.6);
+
+  let m1=document.getElementById("music1");
+
+  if(!music1Started){
+    m1.volume=0.6;
+    m1.play().catch(()=>{});
+    music1Started=true;
+  }
 };
 
 /* PAGE SWITCH */
@@ -299,62 +277,42 @@ function nextPage(n){
 
   target.classList.add("active");
 
-  stopAllMusic();
+  let m1=document.getElementById("music1");
+  let m2=document.getElementById("music2");
+  let m3=document.getElementById("music3");
 
-  if(n===3) startTyping();
-  if(n===5) startVideoSequence();
-  if(n==="pics") setTimeout(startIntentions,300);
-  if(n==="promise") setTimeout(startPromiseAnimations,300);
+  /* SONG 1 CONTINUES - DO NOTHING (IMPORTANT FIX) */
+
+  if(n==="pics"){
+    m3.currentTime=0;
+    m3.volume=0.8;
+    m3.play().catch(()=>{});
+    startScroll("scrollBox");
+  }
+
+  if(n==="promise"){
+    startScroll("promiseBox");
+  }
 
   if(n==="promiseVideo"){
-    startCinematicVideo();
+    let v=document.getElementById("promiseVideo");
+    v.play().catch(()=>{});
   }
 
-  if(n===1 || n===2 || n===3 || n==="reel"){
-    playMusic("music1",0.6);
+  if(n===4){
+    m1.pause();
+    m3.pause();
+
+    m2.volume=1;
+    m2.play().catch(()=>{});
   }
+
+  if(n===3) startTyping();
 }
 
-/* MUSIC */
-function stopAllMusic(){
-  ["music1","music2","music3"].forEach(id=>{
-    let m=document.getElementById(id);
-    if(m){ m.pause(); m.currentTime=0; }
-  });
-}
-
-function playMusic(id,vol){
-  let m=document.getElementById(id);
-  if(m){
-    m.volume=vol;
-    m.play().catch(()=>{});
-  }
-}
-
-/* VIDEO SEQUENCE */
-let videos=["D4.mp4","D5.mp4","D6.mp4","D1.mp4"];
-let index=0;
-
-function startVideoSequence(){
-  let player=document.getElementById("videoPlayer");
-  index=0;
-  player.src=videos[index];
-  player.play();
-
-  player.onended=()=>{
-    index++;
-    if(index<videos.length){
-      player.src=videos[index];
-      player.play();
-    }
-  };
-}
-
-/* INTENTIONS */
-function startIntentions(){
-  playMusic("music3",0.8);
-
-  let imgs=document.querySelectorAll("#scrollBox img");
+/* SCROLL ANIMATION */
+function startScroll(id){
+  let imgs=document.querySelectorAll("#"+id+" img");
 
   let observer=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
@@ -367,48 +325,30 @@ function startIntentions(){
   imgs.forEach(img=>observer.observe(img));
 }
 
-/* PROMISE ANIMATION */
-function startPromiseAnimations(){
-  let imgs=document.querySelectorAll("#promiseBox img");
+/* TYPING */
+let text="I don't know when it happened... but you became my favorite feeling 💖";
+let i=0;
 
-  let observer=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        e.target.classList.add("show");
-      }
-    });
-  });
-
-  imgs.forEach(img=>observer.observe(img));
+function startTyping(){
+  document.getElementById("typing").innerHTML="";
+  i=0;
+  type();
 }
-
-/* 🎬 CINEMATIC VIDEO */
-function startCinematicVideo(){
-  let v=document.getElementById("promiseVideo");
-
-  document.body.style.background="black";
-
-  if(v){
-    v.currentTime=0;
-
-    let playPromise=v.play();
-
-    if(playPromise!==undefined){
-      playPromise.catch(()=>{
-        document.body.addEventListener("click",()=>v.play(),{once:true});
-      });
-    }
+function type(){
+  if(i<text.length){
+    document.getElementById("typing").innerHTML+=text[i++];
+    setTimeout(type,35);
   }
 }
 
 /* CELEBRATION */
 function celebrate(){
+
   document.getElementById("result").style.display="block";
 
-  stopAllMusic();
-  playMusic("music2",1);
-
-  startRoses();
+  let m2=document.getElementById("music2");
+  m2.volume=1;
+  m2.play().catch(()=>{});
 
   for(let i=0;i<300;i++){
     let f=document.createElement("div");
@@ -421,19 +361,6 @@ function celebrate(){
     document.body.appendChild(f);
     setTimeout(()=>f.remove(),1200);
   }
-}
-
-/* ROSES */
-function startRoses(){
-  setInterval(()=>{
-    let r=document.createElement("div");
-    r.className="rose";
-    r.innerHTML="🌹";
-    r.style.left=Math.random()*100+"vw";
-    r.style.animationDuration=(3+Math.random()*3)+"s";
-    document.body.appendChild(r);
-    setTimeout(()=>r.remove(),6000);
-  },300);
 }
 
 /* NO BUTTON */
