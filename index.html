@@ -13,7 +13,7 @@ body{
   color:white;
 }
 
-/* 🎬 INTRO */
+/* INTRO */
 #intro{
   position:fixed;
   width:100%;
@@ -29,7 +29,6 @@ body{
 
 #intro h1{
   color:#ff4d6d;
-  animation:fadeIn 2s forwards;
 }
 
 #intro button{
@@ -42,13 +41,13 @@ body{
   cursor:pointer;
 }
 
-/* ✨ PAGES */
+/* PAGES */
 .page{
   display:none;
   padding-top:80px;
   opacity:0;
   transform:scale(0.95);
-  transition:all 0.8s ease;
+  transition:all 0.6s ease;
 }
 
 .page.active{
@@ -57,7 +56,7 @@ body{
   transform:scale(1);
 }
 
-/* 📸 REELS */
+/* REELS */
 .reel-container{
   height:80vh;
   overflow-y:scroll;
@@ -78,17 +77,17 @@ body{
   box-shadow:0 0 30px #ff4d6d;
 }
 
-/* 🎥 VIDEO */
+/* VIDEO */
 .video-box{
-  animation:zoom 1.2s ease;
+  animation:zoom 1s ease;
 }
 
 @keyframes zoom{
-  from{transform:scale(1.3);opacity:0}
+  from{transform:scale(1.2);opacity:0}
   to{transform:scale(1);opacity:1}
 }
 
-/* 🌹 PETALS */
+/* PETALS */
 @keyframes fall{
   to{
     transform:translateY(100vh) rotate(360deg);
@@ -96,14 +95,14 @@ body{
   }
 }
 
-/* 💥 FIREWORK */
+/* FIREWORK */
 .firework{
   position:fixed;
   width:6px;
   height:6px;
   border-radius:50%;
   background:#ff4d6d;
-  animation:boom 1.2s ease-out forwards;
+  animation:boom 1s ease-out forwards;
 }
 
 @keyframes boom{
@@ -113,7 +112,6 @@ body{
   }
 }
 
-/* BUTTON */
 button{
   padding:12px 22px;
   border:none;
@@ -122,22 +120,18 @@ button{
   color:white;
   margin:10px;
 }
-
-@keyframes fadeIn{
-  to{opacity:1}
-}
 </style>
 </head>
 
 <body>
 
-<!-- 🎬 INTRO -->
+<!-- INTRO -->
 <div id="intro">
-  <h1>A Love Story Begins... ❤️</h1>
-  <button onclick="startMovie()">Enter ❤️</button>
+  <h1>A Love Story Begins ❤️</h1>
+  <button id="enterBtn">Enter 💖</button>
 </div>
 
-<!-- 🎵 MUSIC -->
+<!-- MUSIC -->
 <audio id="music1" src="song1.mp3"></audio>
 <audio id="music2" src="song2.mp3"></audio>
 
@@ -151,18 +145,18 @@ button{
 <!-- PAGE 2 -->
 <div class="page" id="p2">
   <img src="Screenshot.png" width="300"
-       onerror="this.src='https://via.placeholder.com/300'">
+  onerror="this.src='https://via.placeholder.com/300'">
   <p>The day I saw you...</p>
   <button onclick="nextPage(3)">Next ➡️</button>
 </div>
 
-<!-- PAGE 3 (Typing) -->
+<!-- PAGE 3 -->
 <div class="page" id="p3">
   <p id="typing"></p>
   <button onclick="nextPage('reel')">Next ➡️</button>
 </div>
 
-<!-- 📸 REELS -->
+<!-- REELS -->
 <div class="page" id="preel">
   <h2>Memories 💖</h2>
   <div class="reel-container">
@@ -173,7 +167,7 @@ button{
   <button onclick="nextPage(5)">Next ➡️</button>
 </div>
 
-<!-- 🎥 VIDEO -->
+<!-- VIDEO -->
 <div class="page" id="p5">
   <div class="video-box">
     <video id="video" width="90%" controls>
@@ -183,7 +177,7 @@ button{
   <button onclick="nextPage(4)">Next 💖</button>
 </div>
 
-<!-- 💖 FINAL -->
+<!-- FINAL -->
 <div class="page" id="p4">
   <h2>Will you be mine? 💍</h2>
   <button onclick="celebrate()">YES 💖</button>
@@ -197,25 +191,22 @@ button{
 
 <script>
 
-/* 🎬 START */
+/* ENTER BUTTON FIX */
+document.getElementById("enterBtn").addEventListener("click", startMovie);
+
 function startMovie(){
   let intro = document.getElementById("intro");
-
-  intro.style.opacity = "0";
+  intro.style.opacity="0";
 
   setTimeout(()=>{
-    intro.style.display = "none";
-  },800);
+    intro.style.display="none";
+  },600);
 
-  document.getElementById("p1").classList.add("active");
-
-  let m = document.getElementById("music1");
-  m.play().catch(()=>{});
+  document.getElementById("music1").play().catch(()=>{});
 }
 
 /* PAGE SWITCH */
 function nextPage(n){
-
   let pages=document.getElementsByClassName("page");
 
   for(let i=0;i<pages.length;i++){
@@ -223,26 +214,24 @@ function nextPage(n){
   }
 
   let target;
-
-  if(n === 'reel'){
-    target = document.getElementById("preel");
+  if(n==="reel"){
+    target=document.getElementById("preel");
   }else{
-    target = document.getElementById("p"+n);
+    target=document.getElementById("p"+n);
   }
 
   target.classList.add("active");
 
-  if(n === 3){
+  if(n===3){
     startTyping();
   }
 
-  if(n === 5){
-    let v=document.getElementById("video");
-    v.play().catch(()=>{});
+  if(n===5){
+    document.getElementById("video").play().catch(()=>{});
   }
 }
 
-/* 💌 TYPING */
+/* TYPING */
 let text="I don't know when it happened... but you became my favorite feeling 💖";
 let i=0;
 
@@ -260,39 +249,38 @@ function type(){
   }
 }
 
-/* 🌹 PETALS */
+/* PETALS */
 setInterval(()=>{
   let p=document.createElement("div");
   p.innerHTML="🌹";
   p.style.position="absolute";
   p.style.left=Math.random()*100+"vw";
   p.style.top="-20px";
-  p.style.fontSize="20px";
   p.style.animation="fall 6s linear";
   document.body.appendChild(p);
   setTimeout(()=>p.remove(),6000);
-},300);
+},400);
 
-/* 💥 CELEBRATION */
+/* CELEBRATE */
 function celebrate(){
   document.getElementById("result").style.display="block";
 
   document.getElementById("music1").pause();
   document.getElementById("music2").play().catch(()=>{});
 
-  for(let i=0;i<300;i++){
+  for(let i=0;i<250;i++){
     let f=document.createElement("div");
     f.className="firework";
     f.style.left=Math.random()*100+"vw";
     f.style.top=Math.random()*100+"vh";
-    f.style.setProperty('--x',(Math.random()*800-400)+"px");
-    f.style.setProperty('--y",(Math.random()*800-400)+"px");
+    f.style.setProperty('--x',(Math.random()*600-300)+"px");
+    f.style.setProperty('--y',(Math.random()*600-300)+"px");
     document.body.appendChild(f);
-    setTimeout(()=>f.remove(),1200);
+    setTimeout(()=>f.remove(),1000);
   }
 }
 
-/* 😆 NO BUTTON RUN */
+/* NO BUTTON RUN */
 function moveBtn(){
   let b=document.getElementById("noBtn");
   b.style.position="absolute";
