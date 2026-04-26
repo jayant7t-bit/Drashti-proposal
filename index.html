@@ -34,6 +34,7 @@ button{
   background:#ff4d6d;
   color:white;
   margin:10px;
+  cursor:pointer;
 }
 
 /* PAGES */
@@ -64,14 +65,21 @@ video{
   border-radius:20px;
 }
 
-/* FINAL */
+/* FINAL PAGE */
 .ring{
   font-size:60px;
+  animation: float 2s infinite ease-in-out;
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-15px);}
 }
 
 #result{
   display:none;
   font-size:40px;
+  text-shadow:0 0 20px pink;
 }
 
 /* FIREWORKS */
@@ -124,32 +132,26 @@ video{
   <button onclick="nextPage('video')">Next</button>
 </div>
 
-<!-- VIDEO -->
+<!-- VIDEO SEQUENCE -->
 <div class="page" id="pVideo">
   <video id="videoPlayer" controls></video>
-  <button onclick="nextPage('pics')">Next</button>
 </div>
 
-<!-- INTENTIONS (FIXED) -->
+<!-- INTENTIONS (3 PHOTOS FIXED) -->
 <div class="page" id="pPics">
   <h2>My Intentions for You 💞</h2>
   <p>Scroll down ⬇️</p>
 
-  <div class="pics-container" id="scrollBox">
+  <div class="pics-container">
     <img src="Dr1.jpg">
-    <p>You are my peace 💖</p>
-
     <img src="Dr2.jpg">
-    <p>You are my happiness ❤️</p>
-
     <img src="Dr3.jpg">
-    <p>You are my forever 🌸</p>
   </div>
 
   <button onclick="nextPage('promise')">Next 💖</button>
 </div>
 
-<!-- PROMISE -->
+<!-- PROMISES -->
 <div class="page" id="pPromise">
   <h2>My Promises 💖</h2>
 
@@ -167,41 +169,25 @@ video{
   <video id="finalVideo" controls>
     <source src="D2.mp4">
   </video>
-  <button onclick="nextPage(4)">Next 💍</button>
 </div>
 
-<!-- FINAL WHATSAPP -->
+<!-- FINAL PAGE -->
 <div class="page" id="p4">
 
-  <div id="msgBox">
-    <h2>💬 Sending Message...</h2>
-    <button onclick="sendMsg()">Send 💌</button>
-  </div>
+  <h2>Will you be mine? 💍</h2>
 
-  <div id="deliveredBox" style="display:none;">
-    <h2>✔ Delivered</h2>
-    <button onclick="openProposal()">Open 💍</button>
-  </div>
+  <div class="ring">💍</div>
 
-  <div id="proposalBox" style="display:none;">
-    <h2>💖 Will you be mine?</h2>
+  <button onclick="celebrate()">YES 💖</button>
+  <button onclick="celebrate()">ALWAYS YES 💞</button>
 
-    <div class="ring">💍</div>
+  <button id="noBtn" onmouseover="moveBtn()">NO 🙃</button>
 
-    <button onclick="celebrate()">YES 💖</button>
-    <button onclick="celebrate()">SEND YES 💞</button>
-
-    <button id="noBtn" onmouseover="moveBtn()">NO 🙃</button>
-
-    <h2 id="result">💖 SHE SAID YES 💖</h2>
-  </div>
+  <h2 id="result">💖 SHE SAID YES 💖</h2>
 
 </div>
 
 <script>
-
-let videos=["D4.mp4","D5.mp4","D6.mp4","D1.mp4"];
-let vIndex=0;
 
 /* START */
 function startApp(){
@@ -209,60 +195,89 @@ function startApp(){
   document.getElementById("music1").play().catch(()=>{});
 }
 
-/* NAVIGATION (CLEAN FIX) */
+/* NAVIGATION */
 function nextPage(n){
 
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 
-  let target=document.getElementById("p"+n);
+  let target;
 
-  if(n==="video") target=document.getElementById("pVideo");
-  if(n==="pics") target=document.getElementById("pPics");
-  if(n==="promise") target=document.getElementById("pPromise");
-  if(n==="finalVideo") target=document.getElementById("pFinalVideo");
+  switch(n){
+    case 2:
+      target=document.getElementById("p2");
+      break;
+    case 3:
+      target=document.getElementById("p3");
+      break;
+    case "video":
+      target=document.getElementById("pVideo");
+      startVideo();
+      break;
+    case "pics":
+      target=document.getElementById("pPics");
+      playMusic3();
+      break;
+    case "promise":
+      target=document.getElementById("pPromise");
+      break;
+    case "finalVideo":
+      target=document.getElementById("pFinalVideo");
+      playFinalVideo();
+      break;
+  }
 
   if(target) target.classList.add("active");
 
   if(n===3) startTyping();
-  if(n==="video") startVideo();
-  if(n==="pics") playMusic3();
-  if(n===4) startFinalMusic();
 }
 
-/* VIDEO */
-function startVideo(){
+/* VIDEO FLOW */
+let videos=["D4.mp4","D5.mp4","D6.mp4","D1.mp4"];
+let vIndex=0;
 
-  document.getElementById("music1").pause();
-  document.getElementById("music3").pause();
+function startVideo(){
 
   let player=document.getElementById("videoPlayer");
 
   vIndex=0;
-  playVideo(player);
+  playVid(player);
 
   player.onended=()=>{
     vIndex++;
     if(vIndex < videos.length){
-      playVideo(player);
+      playVid(player);
     } else {
       nextPage("pics");
     }
   };
 }
 
-function playVideo(player){
+function playVid(player){
   player.src=videos[vIndex];
-  player.load();
   player.play().catch(()=>{});
 }
 
 /* INTENTIONS MUSIC FIX */
 function playMusic3(){
   let m3=document.getElementById("music3");
+
   m3.pause();
   m3.currentTime=0;
-  m3.volume=0.8;
-  m3.play().catch(()=>{});
+
+  setTimeout(()=>{
+    m3.play().catch(()=>{});
+  },200);
+}
+
+/* FINAL VIDEO AUTO PLAY */
+function playFinalVideo(){
+  let v=document.getElementById("finalVideo");
+
+  v.play().catch(()=>{});
+
+  v.onended=()=>{
+    nextPage(4);
+  };
 }
 
 /* TYPING */
@@ -282,33 +297,15 @@ function type(){
   }
 }
 
-/* FINAL MUSIC */
-function startFinalMusic(){
-  document.getElementById("music1").pause();
-  document.getElementById("music3").pause();
-  document.getElementById("music2").play().catch(()=>{});
-}
-
-/* WHATSAPP FLOW */
-function sendMsg(){
-  document.getElementById("msgBox").style.display="none";
-  document.getElementById("deliveredBox").style.display="block";
-}
-
-function openProposal(){
-  document.getElementById("deliveredBox").style.display="none";
-  document.getElementById("proposalBox").style.display="block";
-}
-
 /* CELEBRATION */
 function celebrate(){
 
   document.getElementById("result").style.display="block";
+  document.getElementById("music2").play().catch(()=>{});
 
   for(let i=0;i<200;i++){
     let f=document.createElement("div");
     f.className="firework";
-    f.style.background=`hsl(${Math.random()*360},100%,60%)`;
     f.style.left=Math.random()*100+"vw";
     f.style.top=Math.random()*100+"vh";
     f.style.setProperty('--x',(Math.random()*800-400)+"px");
