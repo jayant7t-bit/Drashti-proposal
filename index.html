@@ -26,6 +26,7 @@ body{
   z-index:9999;
 }
 
+/* BUTTON */
 button{
   padding:12px 22px;
   border:none;
@@ -63,12 +64,6 @@ video{
   border-radius:20px;
 }
 
-/* TEXT */
-.photoText{
-  margin-bottom:10px;
-  opacity:0.8;
-}
-
 /* FINAL */
 .ring{
   font-size:60px;
@@ -91,21 +86,6 @@ video{
 @keyframes boom{
   to{
     transform:translate(var(--x),var(--y));
-    opacity:0;
-  }
-}
-
-/* ROSES */
-.rose{
-  position:fixed;
-  top:-50px;
-  font-size:22px;
-  animation: fall linear forwards;
-}
-
-@keyframes fall{
-  to{
-    transform:translateY(110vh);
     opacity:0;
   }
 }
@@ -144,28 +124,26 @@ video{
   <button onclick="nextPage('video')">Next</button>
 </div>
 
-<!-- VIDEO SEQUENCE -->
+<!-- VIDEO -->
 <div class="page" id="pVideo">
-  <video id="videoPlayer" controls playsinline></video>
+  <video id="videoPlayer" controls></video>
   <button onclick="nextPage('pics')">Next</button>
 </div>
 
-<!-- INTENTIONS (3 PHOTOS FIXED) -->
+<!-- INTENTIONS (FIXED) -->
 <div class="page" id="pPics">
   <h2>My Intentions for You 💞</h2>
   <p>Scroll down ⬇️</p>
 
   <div class="pics-container" id="scrollBox">
-
     <img src="Dr1.jpg">
-    <p class="photoText">You became my peace 💖</p>
+    <p>You are my peace 💖</p>
 
     <img src="Dr2.jpg">
-    <p class="photoText">My favorite feeling ❤️</p>
+    <p>You are my happiness ❤️</p>
 
     <img src="Dr3.jpg">
-    <p class="photoText">Always you 🌸</p>
-
+    <p>You are my forever 🌸</p>
   </div>
 
   <button onclick="nextPage('promise')">Next 💖</button>
@@ -186,27 +164,27 @@ video{
 
 <!-- FINAL VIDEO -->
 <div class="page" id="pFinalVideo">
-  <video id="finalVideo" controls playsinline>
+  <video id="finalVideo" controls>
     <source src="D2.mp4">
   </video>
   <button onclick="nextPage(4)">Next 💍</button>
 </div>
 
-<!-- FINAL WHATSAPP STYLE -->
+<!-- FINAL WHATSAPP -->
 <div class="page" id="p4">
 
   <div id="msgBox">
-    <h2>📩 Sending Message...</h2>
+    <h2>💬 Sending Message...</h2>
     <button onclick="sendMsg()">Send 💌</button>
   </div>
 
   <div id="deliveredBox" style="display:none;">
-    <h2>✔ Message Delivered</h2>
+    <h2>✔ Delivered</h2>
     <button onclick="openProposal()">Open 💍</button>
   </div>
 
   <div id="proposalBox" style="display:none;">
-    <h2>Will you be mine? 💍</h2>
+    <h2>💖 Will you be mine?</h2>
 
     <div class="ring">💍</div>
 
@@ -231,7 +209,7 @@ function startApp(){
   document.getElementById("music1").play().catch(()=>{});
 }
 
-/* NAVIGATION */
+/* NAVIGATION (CLEAN FIX) */
 function nextPage(n){
 
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
@@ -243,7 +221,7 @@ function nextPage(n){
   if(n==="promise") target=document.getElementById("pPromise");
   if(n==="finalVideo") target=document.getElementById("pFinalVideo");
 
-  target.classList.add("active");
+  if(target) target.classList.add("active");
 
   if(n===3) startTyping();
   if(n==="video") startVideo();
@@ -251,7 +229,7 @@ function nextPage(n){
   if(n===4) startFinalMusic();
 }
 
-/* VIDEO FIX */
+/* VIDEO */
 function startVideo(){
 
   document.getElementById("music1").pause();
@@ -278,9 +256,10 @@ function playVideo(player){
   player.play().catch(()=>{});
 }
 
-/* MUSIC FIX */
+/* INTENTIONS MUSIC FIX */
 function playMusic3(){
   let m3=document.getElementById("music3");
+  m3.pause();
   m3.currentTime=0;
   m3.volume=0.8;
   m3.play().catch(()=>{});
@@ -307,9 +286,7 @@ function type(){
 function startFinalMusic(){
   document.getElementById("music1").pause();
   document.getElementById("music3").pause();
-
-  let m2=document.getElementById("music2");
-  m2.play().catch(()=>{});
+  document.getElementById("music2").play().catch(()=>{});
 }
 
 /* WHATSAPP FLOW */
@@ -328,7 +305,7 @@ function celebrate(){
 
   document.getElementById("result").style.display="block";
 
-  for(let i=0;i<250;i++){
+  for(let i=0;i<200;i++){
     let f=document.createElement("div");
     f.className="firework";
     f.style.background=`hsl(${Math.random()*360},100%,60%)`;
@@ -339,21 +316,6 @@ function celebrate(){
     document.body.appendChild(f);
     setTimeout(()=>f.remove(),1200);
   }
-
-  startRoses();
-}
-
-/* ROSES */
-function startRoses(){
-  setInterval(()=>{
-    let r=document.createElement("div");
-    r.className="rose";
-    r.innerHTML="🌹";
-    r.style.left=Math.random()*100+"vw";
-    r.style.animationDuration=(3+Math.random()*3)+"s";
-    document.body.appendChild(r);
-    setTimeout(()=>r.remove(),6000);
-  },300);
 }
 
 /* NO BUTTON */
