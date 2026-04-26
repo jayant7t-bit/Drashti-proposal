@@ -24,11 +24,6 @@ body{
   justify-content:center;
   align-items:center;
   z-index:9999;
-  transition:0.8s;
-}
-
-#intro h1{
-  color:#ff4d6d;
 }
 
 #intro button{
@@ -37,7 +32,6 @@ body{
   border-radius:25px;
   background:#ff4d6d;
   color:white;
-  margin-top:20px;
   cursor:pointer;
 }
 
@@ -47,7 +41,7 @@ body{
   padding-top:80px;
   opacity:0;
   transform:scale(0.95);
-  transition:all 0.6s ease;
+  transition:0.6s;
 }
 
 .page.active{
@@ -74,7 +68,6 @@ body{
 .reel img{
   height:90%;
   border-radius:20px;
-  box-shadow:0 0 30px #ff4d6d;
 }
 
 /* VIDEO */
@@ -87,12 +80,16 @@ body{
   to{transform:scale(1);opacity:1}
 }
 
-/* PETALS */
-@keyframes fall{
-  to{
-    transform:translateY(100vh) rotate(360deg);
-    opacity:0;
-  }
+/* PHOTO PAGE */
+.pics-container{
+  height:70vh;
+  overflow-y:scroll;
+}
+
+.pics-container img{
+  width:90%;
+  margin:15px 0;
+  border-radius:20px;
 }
 
 /* FIREWORK */
@@ -112,6 +109,7 @@ body{
   }
 }
 
+/* BUTTON */
 button{
   padding:12px 22px;
   border:none;
@@ -132,49 +130,64 @@ button{
 </div>
 
 <!-- MUSIC -->
-<audio id="music1" src="song1.mp3"></audio>
+<audio id="music1" src="Bheegi Bheegi .mp3"></audio>
 <audio id="music2" src="song2.mp3"></audio>
+<audio id="music3" src="song3.mp3"></audio>
 
 <!-- PAGE 1 -->
 <div class="page active" id="p1">
   <h1>Hi Drashti 💖</h1>
-  <p>This is something special for you...</p>
-  <button onclick="nextPage(2)">Start 💌</button>
+  <button onclick="nextPage(2)">Start</button>
 </div>
 
 <!-- PAGE 2 -->
 <div class="page" id="p2">
   <img src="Image.jpg.png" width="300"
-  onerror="this.src='https://via.placeholder.com/300'">
+       onerror="this.src='https://via.placeholder.com/300'">
   <p>The day I saw you...</p>
-  <button onclick="nextPage(3)">Next ➡️</button>
+  <button onclick="nextPage(3)">Next</button>
 </div>
 
 <!-- PAGE 3 -->
 <div class="page" id="p3">
   <p id="typing"></p>
-  <button onclick="nextPage('reel')">Next ➡️</button>
+  <button onclick="nextPage('reel')">Next</button>
 </div>
 
 <!-- REELS -->
 <div class="page" id="preel">
-  <h2>Memories 💖</h2>
   <div class="reel-container">
     <div class="reel"><img src="Drasti1.jpg"></div>
     <div class="reel"><img src="Drasti2.jpg"></div>
-    <div class="reel"><img src="Drasti3.jpg"></div>
+    <div class="reel"><img src="Drasti4.jpg"></div>
   </div>
-  <button onclick="nextPage(5)">Next ➡️</button>
+  <button onclick="nextPage(5)">Next</button>
 </div>
 
 <!-- VIDEO -->
 <div class="page" id="p5">
   <div class="video-box">
     <video id="video" width="90%" controls>
-      <source src="video.mp4" type="video/mp4">
+      <source src="video.mp4">
     </video>
   </div>
-  <button onclick="nextPage(4)">Next 💖</button>
+  <button onclick="nextPage('pics')">Next</button>
+</div>
+
+<!-- 📸 PHOTO PAGE -->
+<div class="page" id="pPics">
+  <h2>My Intentions for You 💞💕</h2>
+  <p>⬇️ Scroll down ⬇️</p>
+
+  <div class="pics-container">
+    <img src="Dr1.jpg">
+    <img src="Dr2.jpg">
+    <img src="Dr3.jpg">
+    <img src="Dr4.jpg">
+    <img src="Dr5.jpg">
+  </div>
+
+  <button onclick="nextPage(4)">Next 💍</button>
 </div>
 
 <!-- FINAL -->
@@ -184,43 +197,48 @@ button{
   <button onclick="celebrate()">ALWAYS YES 💞</button>
   <button id="noBtn" onmouseover="moveBtn()">No 🙃</button>
 
-  <h2 id="result" style="display:none;">
-    💖 SHE SAID YES 💖
-  </h2>
+  <h2 id="result" style="display:none;">💖 SHE SAID YES 💖</h2>
 </div>
 
 <script>
 
-/* ENTER BUTTON FIX */
-document.getElementById("enterBtn").addEventListener("click", startMovie);
-
-function startMovie(){
-  let intro = document.getElementById("intro");
-  intro.style.opacity="0";
-
-  setTimeout(()=>{
-    intro.style.display="none";
-  },600);
-
+/* ENTER */
+document.getElementById("enterBtn").addEventListener("click",()=>{
+  document.getElementById("intro").style.display="none";
   document.getElementById("music1").play().catch(()=>{});
-}
+});
 
 /* PAGE SWITCH */
 function nextPage(n){
-  let pages=document.getElementsByClassName("page");
 
+  let pages=document.getElementsByClassName("page");
   for(let i=0;i<pages.length;i++){
     pages[i].classList.remove("active");
   }
 
   let target;
+
   if(n==="reel"){
     target=document.getElementById("preel");
-  }else{
+  }
+  else if(n==="pics"){
+    target=document.getElementById("pPics");
+  }
+  else{
     target=document.getElementById("p"+n);
   }
 
   target.classList.add("active");
+
+  let m1=document.getElementById("music1");
+  let m3=document.getElementById("music3");
+
+  if(n==="pics"){
+    m1.pause();
+    m3.play().catch(()=>{});
+  }else{
+    m3.pause();
+  }
 
   if(n===3){
     startTyping();
@@ -249,26 +267,13 @@ function type(){
   }
 }
 
-/* PETALS */
-setInterval(()=>{
-  let p=document.createElement("div");
-  p.innerHTML="🌹";
-  p.style.position="absolute";
-  p.style.left=Math.random()*100+"vw";
-  p.style.top="-20px";
-  p.style.animation="fall 6s linear";
-  document.body.appendChild(p);
-  setTimeout(()=>p.remove(),6000);
-},400);
-
-/* CELEBRATE */
+/* CELEBRATION */
 function celebrate(){
   document.getElementById("result").style.display="block";
 
-  document.getElementById("music1").pause();
   document.getElementById("music2").play().catch(()=>{});
 
-  for(let i=0;i<250;i++){
+  for(let i=0;i<200;i++){
     let f=document.createElement("div");
     f.className="firework";
     f.style.left=Math.random()*100+"vw";
@@ -280,7 +285,7 @@ function celebrate(){
   }
 }
 
-/* NO BUTTON RUN */
+/* NO BUTTON */
 function moveBtn(){
   let b=document.getElementById("noBtn");
   b.style.position="absolute";
