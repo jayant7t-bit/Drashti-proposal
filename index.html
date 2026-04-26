@@ -34,7 +34,6 @@ button{
   background:#ff4d6d;
   color:white;
   margin:10px;
-  cursor:pointer;
 }
 
 /* PAGES */
@@ -44,12 +43,6 @@ button{
 }
 .page.active{
   display:block;
-}
-
-/* VIDEO */
-video{
-  width:90%;
-  border-radius:20px;
 }
 
 /* INTENTIONS */
@@ -132,12 +125,12 @@ video{
   <button onclick="nextPage('video')">Next</button>
 </div>
 
-<!-- VIDEO SEQUENCE -->
+<!-- VIDEO -->
 <div class="page" id="pVideo">
-  <video id="videoPlayer" controls></video>
+  <video id="videoPlayer" width="90%" controls></video>
 </div>
 
-<!-- INTENTIONS (3 PHOTOS FIXED) -->
+<!-- INTENTIONS (3 PHOTOS RESTORED) -->
 <div class="page" id="pPics">
   <h2>My Intentions for You 💞</h2>
   <p>Scroll down ⬇️</p>
@@ -148,30 +141,10 @@ video{
     <img src="Dr3.jpg">
   </div>
 
-  <button onclick="nextPage('promise')">Next 💖</button>
+  <button onclick="nextPage(4)">Next 💖</button>
 </div>
 
-<!-- PROMISES -->
-<div class="page" id="pPromise">
-  <h2>My Promises 💖</h2>
-
-  <div class="pics-container">
-    <img src="P1.jpg">
-    <img src="P2.jpg">
-    <img src="P3.jpg">
-  </div>
-
-  <button onclick="nextPage('finalVideo')">Watch 🎬</button>
-</div>
-
-<!-- FINAL VIDEO -->
-<div class="page" id="pFinalVideo">
-  <video id="finalVideo" controls>
-    <source src="D2.mp4">
-  </video>
-</div>
-
-<!-- FINAL PAGE -->
+<!-- FINAL PAGE (ORIGINAL STYLE) -->
 <div class="page" id="p4">
 
   <h2>Will you be mine? 💍</h2>
@@ -195,104 +168,65 @@ function startApp(){
   document.getElementById("music1").play().catch(()=>{});
 }
 
-/* NAVIGATION */
+/* NAVIGATION (FIXED CLEAN) */
 function nextPage(n){
 
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".page").forEach(p=>{
+    p.classList.remove("active");
+  });
 
-  let target;
+  let target=null;
 
-  switch(n){
-    case 2:
-      target=document.getElementById("p2");
-      break;
-    case 3:
-      target=document.getElementById("p3");
-      break;
-    case "video":
-      target=document.getElementById("pVideo");
-      startVideo();
-      break;
-    case "pics":
-      target=document.getElementById("pPics");
-      playMusic3();
-      break;
-    case "promise":
-      target=document.getElementById("pPromise");
-      break;
-    case "finalVideo":
-      target=document.getElementById("pFinalVideo");
-      playFinalVideo();
-      break;
-  }
+  if(n===2) target=document.getElementById("p2");
+  else if(n===3) target=document.getElementById("p3");
+  else if(n==="video") target=document.getElementById("pVideo");
+  else if(n===4) target=document.getElementById("p4");
 
   if(target) target.classList.add("active");
 
   if(n===3) startTyping();
+  if(n==="video") startVideo();
 }
 
 /* VIDEO FLOW */
 let videos=["D4.mp4","D5.mp4","D6.mp4","D1.mp4"];
-let vIndex=0;
+let i=0;
 
 function startVideo(){
 
-  let player=document.getElementById("videoPlayer");
+  let v=document.getElementById("videoPlayer");
+  i=0;
 
-  vIndex=0;
-  playVid(player);
+  play(v);
 
-  player.onended=()=>{
-    vIndex++;
-    if(vIndex < videos.length){
-      playVid(player);
+  v.onended=()=>{
+    i++;
+    if(i < videos.length){
+      play(v);
     } else {
-      nextPage("pics");
+      nextPage(4);
     }
   };
 }
 
-function playVid(player){
-  player.src=videos[vIndex];
-  player.play().catch(()=>{});
-}
-
-/* INTENTIONS MUSIC FIX */
-function playMusic3(){
-  let m3=document.getElementById("music3");
-
-  m3.pause();
-  m3.currentTime=0;
-
-  setTimeout(()=>{
-    m3.play().catch(()=>{});
-  },200);
-}
-
-/* FINAL VIDEO AUTO PLAY */
-function playFinalVideo(){
-  let v=document.getElementById("finalVideo");
-
+function play(v){
+  v.src=videos[i];
   v.play().catch(()=>{});
-
-  v.onended=()=>{
-    nextPage(4);
-  };
 }
 
 /* TYPING */
 let text="You became my favorite feeling 💖";
-let i=0;
+let t=0;
 
 function startTyping(){
   document.getElementById("typing").innerHTML="";
-  i=0;
+  t=0;
   type();
 }
 
 function type(){
-  if(i<text.length){
-    document.getElementById("typing").innerHTML+=text[i++];
+  if(t < text.length){
+    document.getElementById("typing").innerHTML += text[t++];
     setTimeout(type,40);
   }
 }
@@ -301,6 +235,7 @@ function type(){
 function celebrate(){
 
   document.getElementById("result").style.display="block";
+
   document.getElementById("music2").play().catch(()=>{});
 
   for(let i=0;i<200;i++){
