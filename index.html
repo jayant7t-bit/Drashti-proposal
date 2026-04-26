@@ -11,7 +11,6 @@ body{
   text-align:center;
   background:black;
   color:white;
-  transition:1s;
 }
 
 /* INTRO */
@@ -27,6 +26,7 @@ body{
   z-index:9999;
 }
 
+/* BUTTONS */
 button{
   padding:12px 22px;
   border:none;
@@ -39,27 +39,28 @@ button{
 /* PAGES */
 .page{
   display:none;
-  padding-top:80px;
+  padding-top:70px;
 }
-
 .page.active{
   display:block;
-}
-
-/* IMAGES */
-.pics-container{
-  height:70vh;
-  overflow-y:scroll;
-}
-.pics-container img{
-  width:90%;
-  margin:20px 0;
-  border-radius:20px;
 }
 
 /* VIDEO */
 video{
   width:90%;
+  border-radius:20px;
+}
+
+/* INTENTIONS */
+.pics-container{
+  height:60vh;
+  overflow-y:auto;
+  padding:10px;
+}
+
+.pics-container img{
+  width:85%;
+  margin:15px 0;
   border-radius:20px;
 }
 
@@ -103,6 +104,13 @@ video{
     opacity:0;
   }
 }
+
+/* PHOTO TEXT */
+.photoText{
+  margin-top:5px;
+  font-size:14px;
+  opacity:0.8;
+}
 </style>
 </head>
 
@@ -111,7 +119,7 @@ video{
 <!-- INTRO -->
 <div id="intro">
   <h1>A Love Story Begins ❤️</h1>
-  <button onclick="startAll()">Enter 💖</button>
+  <button onclick="startApp()">Enter 💖</button>
 </div>
 
 <!-- MUSIC -->
@@ -138,38 +146,54 @@ video{
   <button onclick="nextPage('video')">Next</button>
 </div>
 
-<!-- VIDEO -->
+<!-- VIDEO PAGE -->
 <div class="page" id="pVideo">
   <video id="videoPlayer" controls playsinline></video>
-  <button onclick="nextPage('pics')">Next</button>
 </div>
 
-<!-- INTENTIONS -->
+<!-- INTENTIONS (FIXED SCROLL BUTTON ISSUE) -->
 <div class="page" id="pPics">
   <h2>My Intentions for You 💞</h2>
-  <div class="pics-container" id="scrollBox">
-    <img src="Dr1.jpg">
-    <img src="Dr2.jpg">
-    <img src="Dr3.jpg">
-    <img src="Dr4.jpg">
+
+  <p>⬇️ Scroll down ⬇️</p>
+
+  <button onclick="enableScroll('scrollBox')">Enable Scroll 👇</button>
+
+  <div class="pics-container" id="scrollBox" style="overflow:hidden;">
+    <div>
+      <img src="Dr1.jpg">
+      <div class="photoText">You became my peace 💖</div>
+    </div>
+
+    <div>
+      <img src="Dr2.jpg">
+      <div class="photoText">My favorite feeling ❤️</div>
+    </div>
+
+    <div>
+      <img src="Dr3.jpg">
+      <div class="photoText">Always you 🌸</div>
+    </div>
   </div>
+
   <button onclick="nextPage('promise')">Next 💖</button>
 </div>
 
 <!-- PROMISE -->
 <div class="page" id="pPromise">
   <h2>My Promises 💖</h2>
-  <div class="pics-container" id="promiseBox">
+
+  <div class="pics-container">
     <img src="P1.jpg">
     <img src="P2.jpg">
     <img src="P3.jpg">
   </div>
+
   <button onclick="nextPage('finalVideo')">Watch 🎬</button>
 </div>
 
 <!-- FINAL VIDEO -->
 <div class="page" id="pFinalVideo">
-  <h2>One More Thing ❤️</h2>
   <video id="finalVideo" controls playsinline>
     <source src="D2.mp4">
   </video>
@@ -179,10 +203,12 @@ video{
 <!-- FINAL -->
 <div class="page" id="p4">
   <h2>Will you be mine? 💍</h2>
+
   <div class="ring">💍</div>
 
   <button onclick="celebrate()">YES 💖</button>
   <button onclick="celebrate()">SEND YES 💞</button>
+
   <button id="noBtn" onmouseover="moveBtn()">NO 🙃</button>
 
   <h2 id="result">💖 SHE SAID YES 💖</h2>
@@ -190,19 +216,16 @@ video{
 
 <script>
 
-/* VIDEO LIST */
-let videos = ["D4.mp4","D5.mp4","D6.mp4","D1.mp4"];
-let currentVideo = 0;
+let videos=["D4.mp4","D5.mp4","D6.mp4","D1.mp4"];
+let vIndex=0;
 
 /* START */
-function startAll(){
+function startApp(){
   document.getElementById("intro").style.display="none";
-  let m=document.getElementById("music1");
-  m.volume=0.6;
-  m.play().catch(()=>{});
+  document.getElementById("music1").play().catch(()=>{});
 }
 
-/* PAGE NAV */
+/* NAVIGATION */
 function nextPage(n){
 
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
@@ -217,68 +240,43 @@ function nextPage(n){
 
   target.classList.add("active");
 
-  let m1=document.getElementById("music1");
-  let m2=document.getElementById("music2");
-  let m3=document.getElementById("music3");
-
-  /* SONG FLOW */
-  if(n==="pics"){
-    m3.volume=0.8;
-    m3.play().catch(()=>{});
-    startScroll("scrollBox");
-  }
-
-  if(n==="promise"){
-    startScroll("promiseBox");
-  }
-
-  if(n==="video"){
-    startVideo();
-  }
-
-  if(n==="finalVideo"){
-    document.getElementById("finalVideo").play().catch(()=>{});
-  }
-
-  if(n===4){
-    m1.pause();
-    m3.pause();
-    m2.volume=1;
-    m2.play().catch(()=>{});
-  }
-
   if(n===3) startTyping();
+  if(n==="video") startVideo();
+  if(n==="pics") document.getElementById("music3").play().catch(()=>{});
+  if(n===4) startFinalMusic();
 }
 
-/* VIDEO SEQUENCE */
+/* VIDEO FIX + MUSIC STOP ISSUE FIX */
 function startVideo(){
 
   let player=document.getElementById("videoPlayer");
-  currentVideo=0;
 
-  playVid(player);
+  // STOP MUSIC BEFORE VIDEO (IMPORTANT FIX)
+  document.getElementById("music1").pause();
+  document.getElementById("music3").pause();
+
+  vIndex=0;
+  playVideo(player);
 
   player.onended=()=>{
-    currentVideo++;
-    if(currentVideo < videos.length){
-      playVid(player);
-    }else{
+    vIndex++;
+    if(vIndex < videos.length){
+      playVideo(player);
+    } else {
       nextPage("pics");
     }
   };
 }
 
-function playVid(player){
-  player.src=videos[currentVideo];
+function playVideo(player){
+  player.src=videos[vIndex];
   player.load();
   player.play().catch(()=>{});
 }
 
-/* SCROLL */
-function startScroll(id){
-  document.querySelectorAll("#"+id+" img").forEach(img=>{
-    img.style.opacity=1;
-  });
+/* ENABLE SCROLL FIX (YOUR ISSUE) */
+function enableScroll(id){
+  document.getElementById(id).style.overflowY="scroll";
 }
 
 /* TYPING */
@@ -298,17 +296,24 @@ function type(){
   }
 }
 
+/* FINAL MUSIC */
+function startFinalMusic(){
+  document.getElementById("music1").pause();
+  document.getElementById("music3").pause();
+
+  let m2=document.getElementById("music2");
+  m2.volume=1;
+  m2.play().catch(()=>{});
+}
+
 /* CELEBRATION */
 function celebrate(){
 
   document.getElementById("result").style.display="block";
 
-  let m2=document.getElementById("music2");
-  m2.play().catch(()=>{});
-
   startRoses();
 
-  for(let i=0;i<300;i++){
+  for(let i=0;i<250;i++){
     let f=document.createElement("div");
     f.className="firework";
     f.style.background=`hsl(${Math.random()*360},100%,60%)`;
