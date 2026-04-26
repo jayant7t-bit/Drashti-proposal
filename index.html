@@ -103,8 +103,6 @@ video{
   width:100%;
   font-size:22px;
   text-shadow:0 0 15px pink;
-  opacity:0;
-  transition:0.5s;
 }
 
 /* fireworks */
@@ -154,21 +152,6 @@ video{
     opacity:0;
   }
 }
-
-/* cinematic video overlay */
-#videoOverlay{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.85);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  z-index:999;
-}
 </style>
 </head>
 
@@ -181,9 +164,9 @@ video{
 </div>
 
 <!-- MUSIC -->
-<audio id="music1" src="Tera khayal.mp3"></audio>
-<audio id="music2" src="duniya.mp3"></audio>
-<audio id="music3" src="aahijata.mp3"></audio>
+<audio id="music1" src="music1.mp3"></audio>
+<audio id="music2" src="music2.mp3"></audio>
+<audio id="music3" src="music3.mp3"></audio>
 
 <!-- PAGE 1 -->
 <div class="page active" id="p1">
@@ -193,8 +176,9 @@ video{
 
 <!-- PAGE 2 -->
 <div class="page" id="p2">
-  <img src="Image.jpg.png" width="300">
-  <p>The day I saw you...</p>
+  <img src="image1.jpg.png" width="300">
+  <p>The day I saw you outside kv school that was my first sight love, i cant even explain that feeling from that day I was stalking or kind of ( nazar rakhi ja rahi thi 🥲.After that I seen u multiple time many other places but I never had a courage to say this to you it's almost 2 years from that I saw u first , that I was thinking u were in a relationship but some months before i got to know that you are single currently that day i thought thi. is the right time to express my feelings to you , I tried through many ways to get in touch with you but I couldn't  or  i  can say that u do t want to get in touch 😅😅
+  </p>
   <button onclick="nextPage(3)">Next</button>
 </div>
 
@@ -208,59 +192,31 @@ video{
 <div class="page" id="preel">
   <div class="reel-container">
     <p>Scroll down</p>
-    <div class="reel"><img src="Drasti1.jpg"></div>
-    <div class="reel"><img src="Drasti2.jpg"></div>
-    <div class="reel"><img src="Drasti4.jpg"></div>
+    <div class="reel"><img src="r1.jpg"></div>
+    <div class="reel"><img src="r2.jpg"></div>
+    <div class="reel"><img src="r3.jpg"></div>
   </div>
   <button onclick="nextPage(5)">Next</button>
 </div>
 
-<!-- VIDEO SEQUENCE -->
+<!-- VIDEO -->
 <div class="page" id="p5">
-  <video id="videoPlayer" controls></video>
+  <video id="videoPlayer"></video>
   <button onclick="nextPage('pics')">Next</button>
 </div>
 
 <!-- INTENTIONS -->
 <div class="page" id="pPics">
-  <h2>My Intentions for You 💞💕</h2>
-  <p>⬇️ Scroll slowly ⬇️</p>
-  <div id="lyrics"></div>
+  <h2>My Intentions for You 💞</h2>
 
   <div class="pics-container" id="scrollBox">
-    <img src="Dr1.jpg">
-    <img src="Dr2.jpg">
-    <img src="Dr3.jpg">
-    <img src="Dr4.jpg">
-    <img src="Dr5.jpg">
+    <img src="i1.jpg">
+    <img src="i2.jpg">
+    <img src="i3.jpg">
+    <img src="i4.jpg">
   </div>
 
-  <button onclick="nextPage('promise')">Next 💖</button>
-</div>
-
-<!-- PROMISES -->
-<div class="page" id="pPromise">
-  <h2>My Promises to You 💖</h2>
-  <p>⬇️ Scroll down ⬇️</p>
-
-  <div class="pics-container" id="promiseBox">
-    <img src="P1.jpg">
-    <img src="P2.jpg">
-    <img src="P3.jpg">
-    <img src="P4.jpg">
-  </div>
-
-  <button onclick="nextPage('promiseVideo')">Watch This 🎬</button>
-</div>
-
-<!-- 🎬 CINEMATIC VIDEO -->
-<div class="page" id="PromiseVideo">
-  <h2>One More Thing For You ❤️</h2>
-  <video id="pPromiseVideo" controls playsinline>
-    <source src="D2.mp4" type="video/mp4">
-  </video>
-  <br><br>
-  <button onclick="nextPage(4)">Next 💍</button>
+  <button onclick="nextPage(4)">Next 💖</button>
 </div>
 
 <!-- FINAL -->
@@ -293,8 +249,6 @@ function nextPage(n){
 
   if(n==="reel") target=document.getElementById("preel");
   else if(n==="pics") target=document.getElementById("pPics");
-  else if(n==="promise") target=document.getElementById("pPromise");
-  else if(n==="promiseVideo") target=document.getElementById("pPromiseVideo");
   else target=document.getElementById("p"+n);
 
   target.classList.add("active");
@@ -303,12 +257,7 @@ function nextPage(n){
 
   if(n===3) startTyping();
   if(n===5) startVideoSequence();
-  if(n==="pics") setTimeout(startIntentions,300);
-  if(n==="promise") setTimeout(startPromiseAnimations,300);
-
-  if(n==="promiseVideo"){
-    startCinematicVideo();
-  }
+  if(n==="pics") startIntentions();
 
   if(n===1 || n===2 || n===3 || n==="reel"){
     playMusic("music1",0.6);
@@ -331,8 +280,22 @@ function playMusic(id,vol){
   }
 }
 
+/* TYPING */
+function startTyping(){
+  let text="I never believed in love at first sight... until I saw you ❤️";
+  let i=0;
+  let el=document.getElementById("typing");
+  el.innerHTML="";
+
+  let interval=setInterval(()=>{
+    el.innerHTML+=text[i];
+    i++;
+    if(i>=text.length) clearInterval(interval);
+  },50);
+}
+
 /* VIDEO SEQUENCE */
-let videos=["D4.mp4","D5.mp4","D6.mp4","D1.mp4"];
+let videos=["v1.mp4","v2.mp4","v3.mp4"];
 let index=0;
 
 function startVideoSequence(){
@@ -367,40 +330,6 @@ function startIntentions(){
   imgs.forEach(img=>observer.observe(img));
 }
 
-/* PROMISE ANIMATION */
-function startPromiseAnimations(){
-  let imgs=document.querySelectorAll("#promiseBox img");
-
-  let observer=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        e.target.classList.add("show");
-      }
-    });
-  });
-
-  imgs.forEach(img=>observer.observe(img));
-}
-
-/* 🎬 CINEMATIC VIDEO */
-function startCinematicVideo(){
-  let v=document.getElementById("promiseVideo");
-
-  document.body.style.background="black";
-
-  if(v){
-    v.currentTime=0;
-
-    let playPromise=v.play();
-
-    if(playPromise!==undefined){
-      playPromise.catch(()=>{
-        document.body.addEventListener("click",()=>v.play(),{once:true});
-      });
-    }
-  }
-}
-
 /* CELEBRATION */
 function celebrate(){
   document.getElementById("result").style.display="block";
@@ -410,7 +339,7 @@ function celebrate(){
 
   startRoses();
 
-  for(let i=0;i<300;i++){
+  for(let i=0;i<200;i++){
     let f=document.createElement("div");
     f.className="firework";
     f.style.background=`hsl(${Math.random()*360},100%,60%)`;
@@ -424,8 +353,9 @@ function celebrate(){
 }
 
 /* ROSES */
+let roseInterval;
 function startRoses(){
-  setInterval(()=>{
+  roseInterval=setInterval(()=>{
     let r=document.createElement("div");
     r.className="rose";
     r.innerHTML="🌹";
@@ -433,7 +363,9 @@ function startRoses(){
     r.style.animationDuration=(3+Math.random()*3)+"s";
     document.body.appendChild(r);
     setTimeout(()=>r.remove(),6000);
-  },300);
+  },400);
+
+  setTimeout(()=>clearInterval(roseInterval),8000);
 }
 
 /* NO BUTTON */
