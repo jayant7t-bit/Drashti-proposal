@@ -26,7 +26,6 @@ body{
   z-index:9999;
 }
 
-/* BUTTONS */
 button{
   padding:12px 22px;
   border:none;
@@ -53,7 +52,7 @@ video{
 
 /* INTENTIONS */
 .pics-container{
-  height:60vh;
+  height:70vh;
   overflow-y:auto;
   padding:10px;
 }
@@ -62,6 +61,12 @@ video{
   width:85%;
   margin:15px 0;
   border-radius:20px;
+}
+
+/* TEXT */
+.photoText{
+  margin-bottom:10px;
+  opacity:0.8;
 }
 
 /* FINAL */
@@ -104,13 +109,6 @@ video{
     opacity:0;
   }
 }
-
-/* PHOTO TEXT */
-.photoText{
-  margin-top:5px;
-  font-size:14px;
-  opacity:0.8;
-}
 </style>
 </head>
 
@@ -146,34 +144,28 @@ video{
   <button onclick="nextPage('video')">Next</button>
 </div>
 
-<!-- VIDEO PAGE -->
+<!-- VIDEO SEQUENCE -->
 <div class="page" id="pVideo">
   <video id="videoPlayer" controls playsinline></video>
+  <button onclick="nextPage('pics')">Next</button>
 </div>
 
-<!-- INTENTIONS (FIXED SCROLL BUTTON ISSUE) -->
+<!-- INTENTIONS (3 PHOTOS FIXED) -->
 <div class="page" id="pPics">
   <h2>My Intentions for You 💞</h2>
+  <p>Scroll down ⬇️</p>
 
-  <p>⬇️ Scroll down ⬇️</p>
+  <div class="pics-container" id="scrollBox">
 
-  <button onclick="enableScroll('scrollBox')">Enable Scroll 👇</button>
+    <img src="Dr1.jpg">
+    <p class="photoText">You became my peace 💖</p>
 
-  <div class="pics-container" id="scrollBox" style="overflow:hidden;">
-    <div>
-      <img src="Dr1.jpg">
-      <div class="photoText">You became my peace 💖</div>
-    </div>
+    <img src="Dr2.jpg">
+    <p class="photoText">My favorite feeling ❤️</p>
 
-    <div>
-      <img src="Dr2.jpg">
-      <div class="photoText">My favorite feeling ❤️</div>
-    </div>
+    <img src="Dr3.jpg">
+    <p class="photoText">Always you 🌸</p>
 
-    <div>
-      <img src="Dr3.jpg">
-      <div class="photoText">Always you 🌸</div>
-    </div>
   </div>
 
   <button onclick="nextPage('promise')">Next 💖</button>
@@ -200,18 +192,32 @@ video{
   <button onclick="nextPage(4)">Next 💍</button>
 </div>
 
-<!-- FINAL -->
+<!-- FINAL WHATSAPP STYLE -->
 <div class="page" id="p4">
-  <h2>Will you be mine? 💍</h2>
 
-  <div class="ring">💍</div>
+  <div id="msgBox">
+    <h2>📩 Sending Message...</h2>
+    <button onclick="sendMsg()">Send 💌</button>
+  </div>
 
-  <button onclick="celebrate()">YES 💖</button>
-  <button onclick="celebrate()">SEND YES 💞</button>
+  <div id="deliveredBox" style="display:none;">
+    <h2>✔ Message Delivered</h2>
+    <button onclick="openProposal()">Open 💍</button>
+  </div>
 
-  <button id="noBtn" onmouseover="moveBtn()">NO 🙃</button>
+  <div id="proposalBox" style="display:none;">
+    <h2>Will you be mine? 💍</h2>
 
-  <h2 id="result">💖 SHE SAID YES 💖</h2>
+    <div class="ring">💍</div>
+
+    <button onclick="celebrate()">YES 💖</button>
+    <button onclick="celebrate()">SEND YES 💞</button>
+
+    <button id="noBtn" onmouseover="moveBtn()">NO 🙃</button>
+
+    <h2 id="result">💖 SHE SAID YES 💖</h2>
+  </div>
+
 </div>
 
 <script>
@@ -230,30 +236,28 @@ function nextPage(n){
 
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 
-  let target;
+  let target=document.getElementById("p"+n);
 
   if(n==="video") target=document.getElementById("pVideo");
-  else if(n==="pics") target=document.getElementById("pPics");
-  else if(n==="promise") target=document.getElementById("pPromise");
-  else if(n==="finalVideo") target=document.getElementById("pFinalVideo");
-  else target=document.getElementById("p"+n);
+  if(n==="pics") target=document.getElementById("pPics");
+  if(n==="promise") target=document.getElementById("pPromise");
+  if(n==="finalVideo") target=document.getElementById("pFinalVideo");
 
   target.classList.add("active");
 
   if(n===3) startTyping();
   if(n==="video") startVideo();
-  if(n==="pics") document.getElementById("music3").play().catch(()=>{});
+  if(n==="pics") playMusic3();
   if(n===4) startFinalMusic();
 }
 
-/* VIDEO FIX + MUSIC STOP ISSUE FIX */
+/* VIDEO FIX */
 function startVideo(){
 
-  let player=document.getElementById("videoPlayer");
-
-  // STOP MUSIC BEFORE VIDEO (IMPORTANT FIX)
   document.getElementById("music1").pause();
   document.getElementById("music3").pause();
+
+  let player=document.getElementById("videoPlayer");
 
   vIndex=0;
   playVideo(player);
@@ -274,9 +278,12 @@ function playVideo(player){
   player.play().catch(()=>{});
 }
 
-/* ENABLE SCROLL FIX (YOUR ISSUE) */
-function enableScroll(id){
-  document.getElementById(id).style.overflowY="scroll";
+/* MUSIC FIX */
+function playMusic3(){
+  let m3=document.getElementById("music3");
+  m3.currentTime=0;
+  m3.volume=0.8;
+  m3.play().catch(()=>{});
 }
 
 /* TYPING */
@@ -302,16 +309,24 @@ function startFinalMusic(){
   document.getElementById("music3").pause();
 
   let m2=document.getElementById("music2");
-  m2.volume=1;
   m2.play().catch(()=>{});
+}
+
+/* WHATSAPP FLOW */
+function sendMsg(){
+  document.getElementById("msgBox").style.display="none";
+  document.getElementById("deliveredBox").style.display="block";
+}
+
+function openProposal(){
+  document.getElementById("deliveredBox").style.display="none";
+  document.getElementById("proposalBox").style.display="block";
 }
 
 /* CELEBRATION */
 function celebrate(){
 
   document.getElementById("result").style.display="block";
-
-  startRoses();
 
   for(let i=0;i<250;i++){
     let f=document.createElement("div");
@@ -324,6 +339,8 @@ function celebrate(){
     document.body.appendChild(f);
     setTimeout(()=>f.remove(),1200);
   }
+
+  startRoses();
 }
 
 /* ROSES */
