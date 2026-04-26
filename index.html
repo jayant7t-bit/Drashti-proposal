@@ -13,7 +13,6 @@ body{
   color:white;
 }
 
-/* INTRO */
 #intro{
   position:fixed;
   width:100%;
@@ -26,7 +25,6 @@ body{
   z-index:9999;
 }
 
-/* BUTTON */
 button{
   padding:12px 22px;
   border:none;
@@ -36,50 +34,64 @@ button{
   margin:10px;
 }
 
-/* PAGES */
+/* pages */
 .page{
   display:none;
-  padding-top:70px;
-}
-.page.active{
-  display:block;
+  padding-top:80px;
+  opacity:0;
+  transform:scale(0.95);
+  transition:0.6s;
 }
 
-/* INTENTIONS */
+.page.active{
+  display:block;
+  opacity:1;
+  transform:scale(1);
+}
+
+/* reels */
+.reel-container{
+  height:80vh;
+  overflow-y:scroll;
+}
+
+.reel{
+  height:80vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.reel img{
+  height:90%;
+  border-radius:20px;
+}
+
+/* video */
+video{
+  width:90%;
+  border-radius:20px;
+  box-shadow:0 0 25px #ff4d6d;
+}
+
+/* pics */
 .pics-container{
   height:70vh;
-  overflow-y:auto;
-  padding:10px;
+  overflow-y:scroll;
 }
 
 .pics-container img{
-  width:85%;
+  width:90%;
   margin:15px 0;
   border-radius:20px;
 }
 
-/* FINAL PAGE */
-.ring{
-  font-size:60px;
-  animation: float 2s infinite ease-in-out;
-}
-
-@keyframes float{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-15px);}
-}
-
-#result{
-  display:none;
-  font-size:40px;
-  text-shadow:0 0 20px pink;
-}
-
-/* FIREWORKS */
+/* fireworks */
 .firework{
   position:fixed;
   width:6px;
   height:6px;
+  background:#ff4d6d;
   border-radius:50%;
   animation:boom 1s forwards;
 }
@@ -98,13 +110,13 @@ button{
 <!-- INTRO -->
 <div id="intro">
   <h1>A Love Story Begins ❤️</h1>
-  <button onclick="startApp()">Enter 💖</button>
+  <button id="enterBtn">Enter 💖</button>
 </div>
 
 <!-- MUSIC -->
-<audio id="music1" src="Tera khayal.mp3"></audio>
-<audio id="music2" src="duniya.mp3"></audio>
-<audio id="music3" src="aahijata.mp3"></audio>
+<audio id="music1" src="Tera khayal .m4a"></audio>
+<audio id="music2" src="duniya bhula ke.m4a"></audio>
+<audio id="music3" src="aa hi jata hai.m4a"></audio>
 
 <!-- PAGE 1 -->
 <div class="page active" id="p1">
@@ -114,7 +126,7 @@ button{
 
 <!-- PAGE 2 -->
 <div class="page" id="p2">
-  <img src="Image.png" width="250">
+  <img src="Image.jpg.png" width="300">
   <p>The day I saw you...</p>
   <button onclick="nextPage(3)">Next</button>
 </div>
@@ -122,120 +134,140 @@ button{
 <!-- PAGE 3 -->
 <div class="page" id="p3">
   <p id="typing"></p>
-  <button onclick="nextPage('video')">Next</button>
+  <button onclick="nextPage('reel')">Next</button>
 </div>
 
-<!-- VIDEO -->
-<div class="page" id="pVideo">
-  <video id="videoPlayer" width="90%" controls></video>
+<!-- REELS -->
+<div class="page" id="preel">
+  <div class="reel-container">
+    <div class="reel"><img src="Drasti1.jpg"></div>
+    <div class="reel"><img src="Drasti2.jpg"></div>
+    <div class="reel"><img src="Drasti4.jpg"></div>
+  </div>
+  <button onclick="nextPage(5)">Next</button>
 </div>
 
-<!-- INTENTIONS (3 PHOTOS RESTORED) -->
+<!-- 🎬 VIDEO SEQUENCE -->
+<div class="page" id="p5">
+  <video id="videoPlayer" controls></video>
+  <button onclick="nextPage('pics')">Next</button>
+</div>
+
+<!-- PHOTO PAGE -->
 <div class="page" id="pPics">
-  <h2>My Intentions for You 💞</h2>
-  <p>Scroll down ⬇️</p>
+  <h2>My Intentions for You 💞💕</h2>
+  <p>⬇️ Scroll down ⬇️</p>
 
   <div class="pics-container">
     <img src="Dr1.jpg">
     <img src="Dr2.jpg">
     <img src="Dr3.jpg">
+    <img src="Dr4.jpg">
+    <img src="Dr5.jpg">
   </div>
 
-  <button onclick="nextPage(4)">Next 💖</button>
+  <button onclick="nextPage(4)">Next 💍</button>
 </div>
 
-<!-- FINAL PAGE (ORIGINAL STYLE) -->
+<!-- FINAL -->
 <div class="page" id="p4">
-
   <h2>Will you be mine? 💍</h2>
-
-  <div class="ring">💍</div>
-
   <button onclick="celebrate()">YES 💖</button>
   <button onclick="celebrate()">ALWAYS YES 💞</button>
-
-  <button id="noBtn" onmouseover="moveBtn()">NO 🙃</button>
-
-  <h2 id="result">💖 SHE SAID YES 💖</h2>
-
+  <button id="noBtn" onmouseover="moveBtn()">No 🙃</button>
+  <h2 id="result" style="display:none;">💖 SHE SAID YES 💖</h2>
 </div>
 
 <script>
 
-/* START */
-function startApp(){
+/* ENTER */
+document.getElementById("enterBtn").onclick = ()=>{
   document.getElementById("intro").style.display="none";
   document.getElementById("music1").play().catch(()=>{});
-}
+};
 
-/* NAVIGATION (FIXED CLEAN) */
+/* PAGE SWITCH */
 function nextPage(n){
 
-  document.querySelectorAll(".page").forEach(p=>{
-    p.classList.remove("active");
-  });
+  let pages=document.getElementsByClassName("page");
+  for(let p of pages){ p.classList.remove("active"); }
 
-  let target=null;
+  let target;
 
-  if(n===2) target=document.getElementById("p2");
-  else if(n===3) target=document.getElementById("p3");
-  else if(n==="video") target=document.getElementById("pVideo");
-  else if(n===4) target=document.getElementById("p4");
+  if(n==="reel") target=document.getElementById("preel");
+  else if(n==="pics") target=document.getElementById("pPics");
+  else target=document.getElementById("p"+n);
 
-  if(target) target.classList.add("active");
+  target.classList.add("active");
 
   if(n===3) startTyping();
-  if(n==="video") startVideo();
+
+  if(n===5){
+    startVideoSequence();
+  }
 }
 
-/* VIDEO FLOW */
-let videos=["D4.mp4","D5.mp4","D6.mp4","D1.mp4"];
-let i=0;
+/* 🎬 CINEMATIC VIDEO SEQUENCE WITH FADE */
+let videos = ["D4.mp4","D5.mp4","D6.mp4","D1.mp4"];
+let index = 0;
 
-function startVideo(){
+function fadeVolume(audio, target){
+  let step = (target - audio.volume) / 20;
 
-  let v=document.getElementById("videoPlayer");
-  i=0;
+  let interval = setInterval(()=>{
+    audio.volume += step;
 
-  play(v);
+    if((step > 0 && audio.volume >= target) || (step < 0 && audio.volume <= target)){
+      audio.volume = target;
+      clearInterval(interval);
+    }
+  },100);
+}
 
-  v.onended=()=>{
-    i++;
-    if(i < videos.length){
-      play(v);
-    } else {
-      nextPage(4);
+function startVideoSequence(){
+  let player = document.getElementById("videoPlayer");
+  let music = document.getElementById("music1");
+
+  if(music) fadeVolume(music, 0.1);
+
+  index = 0;
+  player.src = videos[index];
+  player.play().catch(()=>{});
+
+  player.onended = ()=>{
+    index++;
+
+    if(index < videos.length){
+      setTimeout(()=>{
+        player.src = videos[index];
+        player.play();
+      },500);
+    }else{
+      if(music) fadeVolume(music, 1);
     }
   };
 }
 
-function play(v){
-  v.src=videos[i];
-  v.play().catch(()=>{});
-}
-
 /* TYPING */
-let text="You became my favorite feeling 💖";
-let t=0;
+let text="I don't know when it happened... but you became my favorite feeling 💖";
+let i=0;
 
 function startTyping(){
   document.getElementById("typing").innerHTML="";
-  t=0;
+  i=0;
   type();
 }
 
 function type(){
-  if(t < text.length){
-    document.getElementById("typing").innerHTML += text[t++];
+  if(i<text.length){
+    document.getElementById("typing").innerHTML+=text[i++];
     setTimeout(type,40);
   }
 }
 
 /* CELEBRATION */
 function celebrate(){
-
   document.getElementById("result").style.display="block";
-
   document.getElementById("music2").play().catch(()=>{});
 
   for(let i=0;i<200;i++){
@@ -243,10 +275,10 @@ function celebrate(){
     f.className="firework";
     f.style.left=Math.random()*100+"vw";
     f.style.top=Math.random()*100+"vh";
-    f.style.setProperty('--x',(Math.random()*800-400)+"px");
-    f.style.setProperty('--y',(Math.random()*800-400)+"px");
+    f.style.setProperty('--x',(Math.random()*600-300)+"px");
+    f.style.setProperty('--y',(Math.random()*600-300)+"px");
     document.body.appendChild(f);
-    setTimeout(()=>f.remove(),1200);
+    setTimeout(()=>f.remove(),1000);
   }
 }
 
