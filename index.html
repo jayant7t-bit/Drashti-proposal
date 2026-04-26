@@ -13,7 +13,6 @@ body{
   color:white;
 }
 
-/* INTRO */
 #intro{
   position:fixed;
   width:100%;
@@ -26,16 +25,16 @@ body{
   z-index:9999;
 }
 
-#intro button{
-  padding:12px 25px;
+button{
+  padding:12px 22px;
   border:none;
   border-radius:25px;
   background:#ff4d6d;
   color:white;
-  cursor:pointer;
+  margin:10px;
 }
 
-/* PAGES */
+/* pages */
 .page{
   display:none;
   padding-top:80px;
@@ -50,11 +49,10 @@ body{
   transform:scale(1);
 }
 
-/* REELS */
+/* reels */
 .reel-container{
   height:80vh;
   overflow-y:scroll;
-  scroll-snap-type:y mandatory;
 }
 
 .reel{
@@ -62,7 +60,6 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  scroll-snap-align:start;
 }
 
 .reel img{
@@ -70,17 +67,14 @@ body{
   border-radius:20px;
 }
 
-/* VIDEO */
-.video-box{
-  animation:zoom 1s ease;
+/* video */
+video{
+  width:90%;
+  border-radius:20px;
+  box-shadow:0 0 25px #ff4d6d;
 }
 
-@keyframes zoom{
-  from{transform:scale(1.2);opacity:0}
-  to{transform:scale(1);opacity:1}
-}
-
-/* PHOTO PAGE */
+/* pics */
 .pics-container{
   height:70vh;
   overflow-y:scroll;
@@ -92,14 +86,14 @@ body{
   border-radius:20px;
 }
 
-/* FIREWORK */
+/* fireworks */
 .firework{
   position:fixed;
   width:6px;
   height:6px;
-  border-radius:50%;
   background:#ff4d6d;
-  animation:boom 1s ease-out forwards;
+  border-radius:50%;
+  animation:boom 1s forwards;
 }
 
 @keyframes boom{
@@ -107,16 +101,6 @@ body{
     transform:translate(var(--x),var(--y));
     opacity:0;
   }
-}
-
-/* BUTTON */
-button{
-  padding:12px 22px;
-  border:none;
-  border-radius:25px;
-  background:#ff4d6d;
-  color:white;
-  margin:10px;
 }
 </style>
 </head>
@@ -130,7 +114,7 @@ button{
 </div>
 
 <!-- MUSIC -->
-<audio id="music1" src="Bheegi Bheegi .mp3"></audio>
+<audio id="music1" src="bheegi.mp3"></audio>
 <audio id="music2" src="song2.mp3"></audio>
 <audio id="music3" src="song3.mp3"></audio>
 
@@ -142,8 +126,7 @@ button{
 
 <!-- PAGE 2 -->
 <div class="page" id="p2">
-  <img src="Image.jpg.png" width="300"
-       onerror="this.src='https://via.placeholder.com/300'">
+  <img src="Image.png" width="300">
   <p>The day I saw you...</p>
   <button onclick="nextPage(3)">Next</button>
 </div>
@@ -164,23 +147,13 @@ button{
   <button onclick="nextPage(5)">Next</button>
 </div>
 
-<!-- VIDEO -->
+<!-- 🎬 VIDEO SEQUENCE -->
 <div class="page" id="p5">
-  <div class="video-box">
-    <video id="video" width="90%" controls>
-      <source src="D4.mp4">
-    </video>
-    <source src="D5.mp4">
-  </video>
-    <source src="D6.mp4">
-  </video>
-    <source src="D1.mp4">
-  </video>
-  </div>
+  <video id="videoPlayer" controls></video>
   <button onclick="nextPage('pics')">Next</button>
 </div>
 
-<!-- 📸 PHOTO PAGE -->
+<!-- PHOTO PAGE -->
 <div class="page" id="pPics">
   <h2>My Intentions for You 💞💕</h2>
   <p>⬇️ Scroll down ⬇️</p>
@@ -202,57 +175,77 @@ button{
   <button onclick="celebrate()">YES 💖</button>
   <button onclick="celebrate()">ALWAYS YES 💞</button>
   <button id="noBtn" onmouseover="moveBtn()">No 🙃</button>
-
   <h2 id="result" style="display:none;">💖 SHE SAID YES 💖</h2>
 </div>
 
 <script>
 
 /* ENTER */
-document.getElementById("enterBtn").addEventListener("click",()=>{
+document.getElementById("enterBtn").onclick = ()=>{
   document.getElementById("intro").style.display="none";
   document.getElementById("music1").play().catch(()=>{});
-});
+};
 
 /* PAGE SWITCH */
 function nextPage(n){
 
   let pages=document.getElementsByClassName("page");
-  for(let i=0;i<pages.length;i++){
-    pages[i].classList.remove("active");
-  }
+  for(let p of pages){ p.classList.remove("active"); }
 
   let target;
 
-  if(n==="reel"){
-    target=document.getElementById("preel");
-  }
-  else if(n==="pics"){
-    target=document.getElementById("pPics");
-  }
-  else{
-    target=document.getElementById("p"+n);
-  }
+  if(n==="reel") target=document.getElementById("preel");
+  else if(n==="pics") target=document.getElementById("pPics");
+  else target=document.getElementById("p"+n);
 
   target.classList.add("active");
 
-  let m1=document.getElementById("music1");
-  let m3=document.getElementById("music3");
-
-  if(n==="pics"){
-    m1.pause();
-    m3.play().catch(()=>{});
-  }else{
-    m3.pause();
-  }
-
-  if(n===3){
-    startTyping();
-  }
+  if(n===3) startTyping();
 
   if(n===5){
-    document.getElementById("video").play().catch(()=>{});
+    startVideoSequence();
   }
+}
+
+/* 🎬 CINEMATIC VIDEO SEQUENCE WITH FADE */
+let videos = ["D4.mp4","D5.mp4","D6.mp4","D1.mp4"];
+let index = 0;
+
+function fadeVolume(audio, target){
+  let step = (target - audio.volume) / 20;
+
+  let interval = setInterval(()=>{
+    audio.volume += step;
+
+    if((step > 0 && audio.volume >= target) || (step < 0 && audio.volume <= target)){
+      audio.volume = target;
+      clearInterval(interval);
+    }
+  },100);
+}
+
+function startVideoSequence(){
+  let player = document.getElementById("videoPlayer");
+  let music = document.getElementById("music1");
+
+  if(music) fadeVolume(music, 0.1);
+
+  index = 0;
+  player.src = videos[index];
+  player.play().catch(()=>{});
+
+  player.onended = ()=>{
+    index++;
+
+    if(index < videos.length){
+      setTimeout(()=>{
+        player.src = videos[index];
+        player.play();
+      },500);
+    }else{
+      if(music) fadeVolume(music, 1);
+    }
+  };
 }
 
 /* TYPING */
@@ -267,8 +260,7 @@ function startTyping(){
 
 function type(){
   if(i<text.length){
-    document.getElementById("typing").innerHTML+=text.charAt(i);
-    i++;
+    document.getElementById("typing").innerHTML+=text[i++];
     setTimeout(type,40);
   }
 }
@@ -276,7 +268,6 @@ function type(){
 /* CELEBRATION */
 function celebrate(){
   document.getElementById("result").style.display="block";
-
   document.getElementById("music2").play().catch(()=>{});
 
   for(let i=0;i<200;i++){
