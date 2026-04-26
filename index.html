@@ -11,10 +11,9 @@ body{
   text-align:center;
   background:black;
   color:white;
-  transition:1s;
 }
 
-/* intro */
+/* INTRO */
 #intro{
   position:fixed;
   width:100%;
@@ -27,6 +26,7 @@ body{
   z-index:9999;
 }
 
+/* BUTTON */
 button{
   padding:12px 22px;
   border:none;
@@ -36,78 +36,45 @@ button{
   margin:10px;
 }
 
-/* pages */
+/* PAGES */
 .page{
   display:none;
-  padding-top:80px;
-  opacity:0;
-  transform:scale(0.95);
-  transition:0.6s;
+  padding-top:70px;
 }
-
 .page.active{
   display:block;
-  opacity:1;
-  transform:scale(1);
 }
 
-/* reels */
-.reel-container{
-  height:80vh;
-  overflow-y:scroll;
-}
-
-.reel{
-  height:80vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.reel img{
-  height:90%;
-  border-radius:20px;
-}
-
-/* video */
+/* VIDEO */
 video{
   width:90%;
   border-radius:20px;
-  box-shadow:0 0 25px #ff4d6d;
 }
 
-/* pics */
+/* INTENTIONS */
 .pics-container{
   height:70vh;
-  overflow-y:scroll;
+  overflow-y:auto;
+  padding:10px;
 }
 
 .pics-container img{
-  width:90%;
-  margin:20px 0;
+  width:85%;
+  margin:15px 0;
   border-radius:20px;
-  opacity:0;
-  transform:translateY(50px);
-  transition:1s;
 }
 
-.pics-container img.show{
-  opacity:1;
-  transform:translateY(0);
+/* FINAL */
+.ring{
+  font-size:60px;
 }
 
-/* lyrics */
-#lyrics{
-  position:fixed;
-  bottom:30px;
-  width:100%;
-  font-size:22px;
-  text-shadow:0 0 15px pink;
-  opacity:0;
-  transition:0.5s;
+#result{
+  display:none;
+  font-size:40px;
 }
 
-/* fireworks */
+/* FIREWORKS */
 .firework{
   position:fixed;
   width:6px;
@@ -122,53 +89,6 @@ video{
     opacity:0;
   }
 }
-
-/* proposal */
-.ring{
-  font-size:60px;
-  animation: floatRing 2s infinite ease-in-out;
-}
-
-@keyframes floatRing{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-20px);}
-}
-
-#result{
-  display:none;
-  font-size:40px;
-  text-shadow:0 0 25px pink;
-}
-
-/* roses */
-.rose{
-  position:fixed;
-  top:-50px;
-  font-size:24px;
-  animation: fall linear forwards;
-}
-
-@keyframes fall{
-  to{
-    transform:translateY(110vh);
-    opacity:0;
-  }
-}
-
-/* cinematic video overlay */
-#videoOverlay{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.85);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-  z-index:999;
-}
 </style>
 </head>
 
@@ -177,7 +97,7 @@ video{
 <!-- INTRO -->
 <div id="intro">
   <h1>A Love Story Begins ❤️</h1>
-  <button id="enterBtn">Enter 💖</button>
+  <button onclick="startApp()">Enter 💖</button>
 </div>
 
 <!-- MUSIC -->
@@ -193,7 +113,7 @@ video{
 
 <!-- PAGE 2 -->
 <div class="page" id="p2">
-  <img src="Image.png" width="300">
+  <img src="Image.png" width="250">
   <p>The day I saw you...</p>
   <button onclick="nextPage(3)">Next</button>
 </div>
@@ -201,215 +121,191 @@ video{
 <!-- PAGE 3 -->
 <div class="page" id="p3">
   <p id="typing"></p>
-  <button onclick="nextPage('reel')">Next</button>
+  <button onclick="nextPage('video')">Next</button>
 </div>
 
-<!-- REELS -->
-<div class="page" id="preel">
-  <div class="reel-container">
-    <div class="reel"><img src="Drasti1.jpg"></div>
-    <div class="reel"><img src="Drasti2.jpg"></div>
-    <div class="reel"><img src="Drasti4.jpg"></div>
-  </div>
-  <button onclick="nextPage(5)">Next</button>
-</div>
-
-<!-- VIDEO SEQUENCE -->
-<div class="page" id="p5">
+<!-- VIDEO -->
+<div class="page" id="pVideo">
   <video id="videoPlayer" controls></video>
   <button onclick="nextPage('pics')">Next</button>
 </div>
 
-<!-- INTENTIONS -->
+<!-- INTENTIONS (FIXED) -->
 <div class="page" id="pPics">
-  <h2>My Intentions for You 💞💕</h2>
-  <p>⬇️ Scroll slowly ⬇️</p>
-  <div id="lyrics"></div>
+  <h2>My Intentions for You 💞</h2>
+  <p>Scroll down ⬇️</p>
 
   <div class="pics-container" id="scrollBox">
     <img src="Dr1.jpg">
+    <p>You are my peace 💖</p>
+
     <img src="Dr2.jpg">
+    <p>You are my happiness ❤️</p>
+
     <img src="Dr3.jpg">
-    <img src="Dr4.jpg">
-    <img src="Dr5.jpg">
+    <p>You are my forever 🌸</p>
   </div>
 
   <button onclick="nextPage('promise')">Next 💖</button>
 </div>
 
-<!-- PROMISES -->
+<!-- PROMISE -->
 <div class="page" id="pPromise">
-  <h2>My Promises to You 💖</h2>
-  <p>⬇️ Scroll down ⬇️</p>
+  <h2>My Promises 💖</h2>
 
-  <div class="pics-container" id="promiseBox">
+  <div class="pics-container">
     <img src="P1.jpg">
     <img src="P2.jpg">
     <img src="P3.jpg">
-    <img src="P4.jpg">
   </div>
 
-  <button onclick="nextPage('promiseVideo')">Watch This 🎬</button>
+  <button onclick="nextPage('finalVideo')">Watch 🎬</button>
 </div>
 
-<!-- 🎬 CINEMATIC VIDEO -->
-<div class="page" id="pPromiseVideo">
-  <h2>One More Thing For You ❤️</h2>
-  <video id="promiseVideo" controls playsinline>
-    <source src="final.mp4" type="video/mp4">
+<!-- FINAL VIDEO -->
+<div class="page" id="pFinalVideo">
+  <video id="finalVideo" controls>
+    <source src="D2.mp4">
   </video>
-  <br><br>
   <button onclick="nextPage(4)">Next 💍</button>
 </div>
 
-<!-- FINAL -->
+<!-- FINAL WHATSAPP -->
 <div class="page" id="p4">
-  <h2>Will you be mine? 💍</h2>
-  <div class="ring">💍</div>
 
-  <button onclick="celebrate()">YES 💖</button>
-  <button onclick="celebrate()">ALWAYS YES 💞</button>
-  <button id="noBtn" onmouseover="moveBtn()">No 🙃</button>
+  <div id="msgBox">
+    <h2>💬 Sending Message...</h2>
+    <button onclick="sendMsg()">Send 💌</button>
+  </div>
 
-  <h2 id="result">💖 SHE SAID YES 💖</h2>
+  <div id="deliveredBox" style="display:none;">
+    <h2>✔ Delivered</h2>
+    <button onclick="openProposal()">Open 💍</button>
+  </div>
+
+  <div id="proposalBox" style="display:none;">
+    <h2>💖 Will you be mine?</h2>
+
+    <div class="ring">💍</div>
+
+    <button onclick="celebrate()">YES 💖</button>
+    <button onclick="celebrate()">SEND YES 💞</button>
+
+    <button id="noBtn" onmouseover="moveBtn()">NO 🙃</button>
+
+    <h2 id="result">💖 SHE SAID YES 💖</h2>
+  </div>
+
 </div>
 
 <script>
 
-/* ENTER */
-document.getElementById("enterBtn").onclick = ()=>{
-  document.getElementById("intro").style.display="none";
-  playMusic("music1",0.6);
-};
+let videos=["D4.mp4","D5.mp4","D6.mp4","D1.mp4"];
+let vIndex=0;
 
-/* PAGE SWITCH */
+/* START */
+function startApp(){
+  document.getElementById("intro").style.display="none";
+  document.getElementById("music1").play().catch(()=>{});
+}
+
+/* NAVIGATION (CLEAN FIX) */
 function nextPage(n){
 
-  let pages=document.getElementsByClassName("page");
-  for(let p of pages){ p.classList.remove("active"); }
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
 
-  let target;
+  let target=document.getElementById("p"+n);
 
-  if(n==="reel") target=document.getElementById("preel");
-  else if(n==="pics") target=document.getElementById("pPics");
-  else if(n==="promise") target=document.getElementById("pPromise");
-  else if(n==="promiseVideo") target=document.getElementById("pPromiseVideo");
-  else target=document.getElementById("p"+n);
+  if(n==="video") target=document.getElementById("pVideo");
+  if(n==="pics") target=document.getElementById("pPics");
+  if(n==="promise") target=document.getElementById("pPromise");
+  if(n==="finalVideo") target=document.getElementById("pFinalVideo");
 
-  target.classList.add("active");
-
-  stopAllMusic();
+  if(target) target.classList.add("active");
 
   if(n===3) startTyping();
-  if(n===5) startVideoSequence();
-  if(n==="pics") setTimeout(startIntentions,300);
-  if(n==="promise") setTimeout(startPromiseAnimations,300);
-
-  if(n==="promiseVideo"){
-    startCinematicVideo();
-  }
-
-  if(n===1 || n===2 || n===3 || n==="reel"){
-    playMusic("music1",0.6);
-  }
+  if(n==="video") startVideo();
+  if(n==="pics") playMusic3();
+  if(n===4) startFinalMusic();
 }
 
-/* MUSIC */
-function stopAllMusic(){
-  ["music1","music2","music3"].forEach(id=>{
-    let m=document.getElementById(id);
-    if(m){ m.pause(); m.currentTime=0; }
-  });
-}
+/* VIDEO */
+function startVideo(){
 
-function playMusic(id,vol){
-  let m=document.getElementById(id);
-  if(m){
-    m.volume=vol;
-    m.play().catch(()=>{});
-  }
-}
+  document.getElementById("music1").pause();
+  document.getElementById("music3").pause();
 
-/* VIDEO SEQUENCE */
-let videos=["D4.mp4","D5.mp4","D6.mp4","D1.mp4"];
-let index=0;
-
-function startVideoSequence(){
   let player=document.getElementById("videoPlayer");
-  index=0;
-  player.src=videos[index];
-  player.play();
+
+  vIndex=0;
+  playVideo(player);
 
   player.onended=()=>{
-    index++;
-    if(index<videos.length){
-      player.src=videos[index];
-      player.play();
+    vIndex++;
+    if(vIndex < videos.length){
+      playVideo(player);
+    } else {
+      nextPage("pics");
     }
   };
 }
 
-/* INTENTIONS */
-function startIntentions(){
-  playMusic("music3",0.8);
-
-  let imgs=document.querySelectorAll("#scrollBox img");
-
-  let observer=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        e.target.classList.add("show");
-      }
-    });
-  });
-
-  imgs.forEach(img=>observer.observe(img));
+function playVideo(player){
+  player.src=videos[vIndex];
+  player.load();
+  player.play().catch(()=>{});
 }
 
-/* PROMISE ANIMATION */
-function startPromiseAnimations(){
-  let imgs=document.querySelectorAll("#promiseBox img");
-
-  let observer=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        e.target.classList.add("show");
-      }
-    });
-  });
-
-  imgs.forEach(img=>observer.observe(img));
+/* INTENTIONS MUSIC FIX */
+function playMusic3(){
+  let m3=document.getElementById("music3");
+  m3.pause();
+  m3.currentTime=0;
+  m3.volume=0.8;
+  m3.play().catch(()=>{});
 }
 
-/* 🎬 CINEMATIC VIDEO */
-function startCinematicVideo(){
-  let v=document.getElementById("promiseVideo");
+/* TYPING */
+let text="You became my favorite feeling 💖";
+let i=0;
 
-  document.body.style.background="black";
+function startTyping(){
+  document.getElementById("typing").innerHTML="";
+  i=0;
+  type();
+}
 
-  if(v){
-    v.currentTime=0;
-
-    let playPromise=v.play();
-
-    if(playPromise!==undefined){
-      playPromise.catch(()=>{
-        document.body.addEventListener("click",()=>v.play(),{once:true});
-      });
-    }
+function type(){
+  if(i<text.length){
+    document.getElementById("typing").innerHTML+=text[i++];
+    setTimeout(type,40);
   }
+}
+
+/* FINAL MUSIC */
+function startFinalMusic(){
+  document.getElementById("music1").pause();
+  document.getElementById("music3").pause();
+  document.getElementById("music2").play().catch(()=>{});
+}
+
+/* WHATSAPP FLOW */
+function sendMsg(){
+  document.getElementById("msgBox").style.display="none";
+  document.getElementById("deliveredBox").style.display="block";
+}
+
+function openProposal(){
+  document.getElementById("deliveredBox").style.display="none";
+  document.getElementById("proposalBox").style.display="block";
 }
 
 /* CELEBRATION */
 function celebrate(){
+
   document.getElementById("result").style.display="block";
 
-  stopAllMusic();
-  playMusic("music2",1);
-
-  startRoses();
-
-  for(let i=0;i<300;i++){
+  for(let i=0;i<200;i++){
     let f=document.createElement("div");
     f.className="firework";
     f.style.background=`hsl(${Math.random()*360},100%,60%)`;
@@ -420,19 +316,6 @@ function celebrate(){
     document.body.appendChild(f);
     setTimeout(()=>f.remove(),1200);
   }
-}
-
-/* ROSES */
-function startRoses(){
-  setInterval(()=>{
-    let r=document.createElement("div");
-    r.className="rose";
-    r.innerHTML="🌹";
-    r.style.left=Math.random()*100+"vw";
-    r.style.animationDuration=(3+Math.random()*3)+"s";
-    document.body.appendChild(r);
-    setTimeout(()=>r.remove(),6000);
-  },300);
 }
 
 /* NO BUTTON */
@@ -446,4 +329,4 @@ function moveBtn(){
 </script>
 
 </body>
-  </html>
+    </html>
