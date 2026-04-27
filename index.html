@@ -444,7 +444,18 @@ function moveBtn(){
   b.style.left=Math.random()*80+"%";
   b.style.top=Math.random()*80+"%";
 }
+function startTyping(){
+  let text="From the moment I saw you... everything changed 💖";
+  let i=0;
+  let el=document.getElementById("typing");
+  el.innerHTML="";
 
+  let t=setInterval(()=>{
+    el.innerHTML+=text[i];
+    i++;
+    if(i>=text.length) clearInterval(t);
+  },50);
+  }
 </script>
 
 </body>
