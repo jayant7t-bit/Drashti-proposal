@@ -257,7 +257,7 @@ video{
 <!-- 🎬 CINEMATIC VIDEO -->
 <div class="page" id="PromiseVideo">
   <h2>One More Thing For You ❤️</h2>
-  <video id="pPromiseVideo" controls playsinline>
+  <video id="PromiseVideo" controls playsinline>
     <source src="D2.mp4" type="video/mp4">
   </video>
   <br><br>
@@ -295,7 +295,7 @@ function nextPage(n){
   if(n==="reel") target=document.getElementById("preel");
   else if(n==="pics") target=document.getElementById("pPics");
   else if(n==="promise") target=document.getElementById("pPromise");
-  else if(n==="promiseVideo") target=document.getElementById("pPromiseVideo");
+  else if(n==="promiseVideo") target=document.getElementById("PromiseVideo");
   else target=document.getElementById("p"+n);
 
   target.classList.add("active");
