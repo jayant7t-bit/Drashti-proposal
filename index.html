@@ -303,7 +303,10 @@ function nextPage(n){
   stopAllMusic();
 
   if(n===3) startTyping();
-  if(n===5) startVideoSequence();
+  if(n===5){
+    fadeOutMusic("music1");
+    startVideoSequence();
+  }
   if(n==="pics") setTimeout(startIntentions,300);
   if(n==="promise") setTimeout(startPromiseAnimations,300);
 
@@ -456,6 +459,21 @@ function startTyping(){
     if(i>=text.length) clearInterval(t);
   },50);
   }
+
+  function fadeOutMusic(id){
+  let m=document.getElementById(id);
+  if(!m) return;
+
+  let fade=setInterval(()=>{
+    if(m.volume > 0.05){
+      m.volume -= 0.05;
+    }else{
+      m.pause();
+      m.currentTime=0;
+      clearInterval(fade);
+    }
+  },100);
+        }
 </script>
 
 </body>
