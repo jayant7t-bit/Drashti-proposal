@@ -9,7 +9,8 @@ body{
   font-family:Arial;
   overflow:hidden;
   text-align:center;
-  background:black;
+  background: radial-gradient(circle at top, #ff4d6d, #1a001f);
+background-attachment: fixed;
   color:white;
   transition:1s;
 }
@@ -202,6 +203,22 @@ button{
 #lyrics{
   font-size:26px;
 }
+  h1, h2, p{
+  text-shadow: 0 0 12px rgba(0,0,0,0.6);
+  }
+  .heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:20px;
+  animation: floatUp linear forwards;
+}
+
+@keyframes floatUp{
+  to{
+    transform:translateY(-110vh);
+    opacity:0;
+  }
+  }
 </style>
 </head>
 
@@ -507,6 +524,17 @@ function startTyping(){
     }
   },100);
         }
+  function startHearts(){
+  setInterval(()=>{
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="💖";
+    h.style.left=Math.random()*100+"vw";
+    h.style.animationDuration=(4+Math.random()*3)+"s";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),7000);
+  },300);
+              }
 </script>
 
 </body>
