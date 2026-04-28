@@ -20,7 +20,7 @@ background-attachment: fixed;
   position:fixed;
   width:100%;
   height:100%;
-  background:black;
+  background: radial-gradient(circle at top, #ff4d6d, #1a001f);
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -311,9 +311,9 @@ button{
 </div>
 
 <!-- 🎬 CINEMATIC VIDEO -->
-<div class="page" id="PromiseVideo">
+<div class="page" id="pPromiseVideo">
   <h2>One More Thing For You ❤️</h2>
-  <video id="PromiseVideo" controls autoplay playsinline>
+  <video id="finalVideo" controls autoplay muted playsinline>
     <source src="D2.mp4" type="video/mp4">
   </video>
   <br><br>
@@ -340,6 +340,8 @@ button{
 document.getElementById("enterBtn").onclick = ()=>{
   document.getElementById("intro").style.display="none";
   playMusic("music1",0.6);
+  starHearts();
+
 };
 
 /* PAGE SWITCH */
@@ -353,7 +355,7 @@ function nextPage(n){
   if(n==="reel") target=document.getElementById("preel");
   else if(n==="pics") target=document.getElementById("pPics");
   else if(n==="promise") target=document.getElementById("pPromise");
-  else if(n==="promiseVideo") target=document.getElementById("PromiseVideo");
+  else if(n==="promiseVideo") target=document.getElementById("pPromiseVideo");
   else target=document.getElementById("p"+n);
 
   target.classList.add("active");
@@ -446,7 +448,7 @@ function startPromiseAnimations(){
 
 /* 🎬 CINEMATIC VIDEO */
 function startCinematicVideo(){
-  let v=document.getElementById("promiseVideo");
+  let v=document.getElementById("finalVideo");
 
   document.body.style.background="black";
 
