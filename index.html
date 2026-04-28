@@ -421,7 +421,10 @@ function startVideoSequence(){
 
 /* INTENTIONS */
 function startIntentions(){
-  playMusic("music3",0.8);
+
+  stopAllMusic();
+
+  playMusic("music2",0.8);
 
   let imgs=document.querySelectorAll("#scrollBox img");
 
