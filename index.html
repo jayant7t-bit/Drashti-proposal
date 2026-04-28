@@ -365,7 +365,9 @@ function nextPage(n){
 
   target.classList.add("active");
 
+  if(n===5 || n==="pics" || n==="promise" || n==="promiseVideo" || n===4){
   stopAllMusic();
+  }
 
   if(n===3) startTyping();
   if(n===5){
@@ -379,9 +381,7 @@ function nextPage(n){
     startCinematicVideo();
   }
 
-  if(n===1 || n===2 || n===3 || n==="reel"){
-    playMusic("music1",0.6);
-  }
+
 }
 
 /* MUSIC */
